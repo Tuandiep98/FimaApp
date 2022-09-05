@@ -10,4 +10,9 @@ class CurrencyService implements ICurrencyService {
   List<CurrencyEntity> getCurrencies() {
     return _dao.getAll();
   }
+
+  @override
+  Future<void> insertAll(List<CurrencyEntity> currencies) async {
+    await _dao.insertAll(currencies);
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:fima/core/ui_model/transaction_ui_model.dart';
 import 'package:hive/hive.dart';
 import '../base_entity.dart';
 part 'transaction_entity.g.dart';
@@ -35,4 +36,18 @@ class TransactionEntity extends BaseEntity {
     this.note,
     this.bank,
   }) : super(id: id);
+
+  TransactionUIModel toUIModel() {
+    return TransactionUIModel(
+      categoryId: this.categoryId,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+      amount: this.amount,
+      type: this.type,
+      currencyId: this.currencyId,
+      currencySymbol: this.currencySymbol,
+      note: this.note,
+      bank: this.bank,
+    );
+  }
 }

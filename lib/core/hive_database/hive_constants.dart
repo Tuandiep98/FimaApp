@@ -1,3 +1,4 @@
+import 'package:fima/core/hive_database/entities/currency_entity/currency_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
@@ -5,10 +6,12 @@ import 'entities/transaction_entity/transaction_entity.dart';
 
 class HiveBoxName {
   static const String transactions = 'transactions'; // 1
+  static const String currencies = 'currencies'; // 29
 }
 
 class HiveTypes {
   static const transactions = 1;
+  static const currencies = 29;
 }
 
 class HiveBoxMap {
@@ -17,6 +20,12 @@ class HiveBoxMap {
       boxName: HiveBoxName.transactions,
       registerAdapterFunction: () {
         Hive.registerAdapter(TransactionEntityAdapter());
+      },
+    ),
+    CurrencyEntity: MyHive<CurrencyEntity>(
+      boxName: HiveBoxName.currencies,
+      registerAdapterFunction: () {
+        Hive.registerAdapter(CurrencyEntityAdapter());
       },
     ),
   };

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/screenutil_init.dart';
@@ -25,19 +26,25 @@ Future<void> mainDelegate() async {
   WidgetsFlutterBinding.ensureInitialized();
   await ensureFilePermission();
   await setupLocator();
+
   runApp(const MyApp());
 }
 
 Future<void> ensureFilePermission() async {
-  if (await NativeUtils.isAndroidSDK30OrAbove()) {
-    var filePermissionMethodChannel =
-        const MethodChannel('file_permission_channel');
-    if (await filePermissionMethodChannel.invokeMethod('checFilePermission') ==
-        false) {
-      await filePermissionMethodChannel.invokeMethod('request');
-    }
-  } else {
+  if (Platform.isIOS) {
     await Permission.storage.request();
+  } else {
+    if (await NativeUtils.isAndroidSDK30OrAbove()) {
+      var filePermissionMethodChannel =
+          const MethodChannel('file_permission_channel');
+      if (await filePermissionMethodChannel
+              .invokeMethod('checFilePermission') ==
+          false) {
+        await filePermissionMethodChannel.invokeMethod('request');
+      }
+    } else {
+      await Permission.storage.request();
+    }
   }
 }
 

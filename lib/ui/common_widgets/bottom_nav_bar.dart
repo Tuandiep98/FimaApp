@@ -6,8 +6,7 @@ import 'package:ss_bottom_navbar/ss_bottom_navbar.dart';
 import 'package:provider/provider.dart';
 
 class BaseScreen extends StatefulWidget {
-  final Widget body;
-  const BaseScreen({Key key, this.body}) : super(key: key);
+  const BaseScreen({Key key}) : super(key: key);
 
   @override
   State<BaseScreen> createState() => _BaseScreenState();
@@ -19,12 +18,13 @@ class _BaseScreenState extends State<BaseScreen> {
   final _screens = [
     HomeScreen(),
     SettingScreen(),
+    SettingScreen(),
   ];
-
   final items = [
-    SSBottomNavItem(text: 'Home', iconData: Icons.home),
-    SSBottomNavItem(text: 'Add', iconData: Icons.add, isIconOnly: true),
-    SSBottomNavItem(text: 'Setting', iconData: Icons.settings),
+    SSBottomNavItem(text: 'Home', iconData: Icons.home, iconSize: 22),
+    SSBottomNavItem(
+        text: 'Add', iconData: Icons.add, iconSize: 22, isIconOnly: true),
+    SSBottomNavItem(text: 'Profile', iconData: Icons.person, iconSize: 22),
   ];
 
   @override
@@ -69,15 +69,15 @@ class _BaseScreenState extends State<BaseScreen> {
         child: Column(
           children: [
             ListTile(
-              leading: Icon(Icons.camera_alt),
+              leading: Icon(Icons.arrow_downward_rounded),
               title: Text('Expense'),
             ),
             ListTile(
-              leading: Icon(Icons.photo_library),
+              leading: Icon(Icons.arrow_upward_rounded),
               title: Text('Income'),
             ),
             ListTile(
-              leading: Icon(Icons.edit),
+              leading: Icon(Icons.devices_other),
               title: Text('Other'),
               onTap: () {
                 Get.back();

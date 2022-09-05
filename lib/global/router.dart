@@ -1,11 +1,11 @@
-import 'package:fima/ui/home_screen/home_screen.dart';
+import 'package:fima/ui/common_widgets/bottom_nav_bar.dart';
 import 'package:fima/ui/setting_screen/setting_screen.dart';
 import 'package:fima/ui/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 class MyRouter {
   static const String splash = '/splash';
-  static const String home = '/home';
+  static const String base = '/base';
   static const String setting = '/setting';
 
   static PageRouteBuilder _buildRouteNavigationWithoutEffect(
@@ -24,10 +24,10 @@ class MyRouter {
           settings,
           const SplashScreen(),
         );
-      case home:
+      case base:
         return _buildRouteNavigationWithoutEffect(
           settings,
-          HomeScreen(),
+          BaseScreen(),
         );
       case setting:
         return _buildRouteNavigationWithoutEffect(
