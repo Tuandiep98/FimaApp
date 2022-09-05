@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/screenutil_init.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'core/utils/constants.dart';
 import 'core/utils/native_utils.dart';
 import 'global/background_sync_manager.dart';
 import 'global/connection_checking.dart';
@@ -69,6 +69,9 @@ class _MyAppState extends State<MyApp> {
           theme: ThemeData(
             primarySwatch: Colors.yellow,
             scaffoldBackgroundColor: Colors.white,
+            textTheme: GoogleFonts.latoTextTheme(
+              Theme.of(context).textTheme,
+            ),
           ),
           debugShowCheckedModeBanner: false,
         ),

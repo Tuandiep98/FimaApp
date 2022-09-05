@@ -1,7 +1,9 @@
 import 'package:fima/core/utils/text_style_utils.dart';
 import 'package:fima/global/app_text.dart';
+import 'package:fima/global/router.dart';
 import 'package:fima/ui/common_widgets/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key key}) : super(key: key);
@@ -39,7 +41,9 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
             ),
             CustomButton(
-              onPressed: () {},
+              onPressed: () {
+                Get.offAllNamed(MyRouter.home);
+              },
               btnColor: const Color(0xff55efc4),
               child: Text(
                 AppText.lblContinueAsGuest,
