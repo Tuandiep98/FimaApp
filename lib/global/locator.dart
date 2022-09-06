@@ -11,6 +11,8 @@ GetIt locator = GetIt.instance;
 Future<void> setupLocator() async {
   locator.registerLazySingleton(() => HiveDatabase());
   locator.registerLazySingleton(() => GlobalData());
+  await locator<HiveDatabase>().init();
+
   setupRestClient();
   registerDaoSingletons(locator);
   registerServiceSingletons(locator);

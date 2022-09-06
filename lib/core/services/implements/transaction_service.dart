@@ -15,4 +15,9 @@ class TransactionService implements ITransactionService {
   Future<void> insert(TransactionEntity device) async {
     await _dao.insert(device);
   }
+
+  @override
+  Future<void> clearAll() async {
+    await _dao.clear();
+  }
 }

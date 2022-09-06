@@ -1,5 +1,6 @@
 import 'package:fima/core/ui_model/transaction_ui_model.dart';
 import 'package:fima/core/utils/text_style_utils.dart';
+import 'package:fima/ui/common_widgets/currency_money_display.dart';
 import 'package:flutter/material.dart';
 
 class TransactionCard extends StatelessWidget {
@@ -9,7 +10,7 @@ class TransactionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(3),
+      padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
       child: Container(
         height: 60,
         decoration: BoxDecoration(
@@ -34,15 +35,13 @@ class TransactionCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  transaction.type == 0
-                      ? 'Income'
-                      : 'Expense' + '(${transaction.currencySymbol})',
+                  (transaction.type == 0 ? 'Income' : 'Expense') +
+                      '(${transaction.currencySymbol})',
                   style: TextStyleUtils.regular(28),
                 ),
-                Text(
-                  '${transaction.amount.toStringAsFixed(2)}' +
-                      '${transaction.currencySymbol}',
-                  style: TextStyleUtils.regular(25),
+                MoneyDisplay(
+                  amount: transaction.amount,
+                  currencySymbol: transaction.currencySymbol,
                 ),
               ],
             ),

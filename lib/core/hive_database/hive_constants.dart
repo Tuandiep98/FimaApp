@@ -6,12 +6,12 @@ import 'entities/transaction_entity/transaction_entity.dart';
 
 class HiveBoxName {
   static const String transactions = 'transactions'; // 1
-  static const String currencies = 'currencies'; // 29
+  static const String currencies = 'currencies'; // 2
 }
 
 class HiveTypes {
   static const transactions = 1;
-  static const currencies = 29;
+  static const currencies = 2;
 }
 
 class HiveBoxMap {

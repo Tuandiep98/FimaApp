@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/screenutil_init.dart';
@@ -67,20 +68,23 @@ class _MyAppState extends State<MyApp> {
       providers: [...viewModelProviders],
       child: ScreenUtilInit(
         designSize: const Size(720, 1280),
-        builder: () => GetMaterialApp(
-          title: 'Fima app',
-          navigatorKey: NavigationUtils.navigatorKey,
-          onGenerateRoute: (settings) => MyRouter.generateRoute(settings),
-          navigatorObservers: [MyRouteObserver()],
-          initialRoute: MyRouter.splash,
-          theme: ThemeData(
-            primarySwatch: Colors.yellow,
-            scaffoldBackgroundColor: Colors.white,
-            textTheme: GoogleFonts.latoTextTheme(
-              Theme.of(context).textTheme,
+        builder: () => CalendarControllerProvider(
+          controller: EventController(),
+          child: GetMaterialApp(
+            title: 'Fima app',
+            navigatorKey: NavigationUtils.navigatorKey,
+            onGenerateRoute: (settings) => MyRouter.generateRoute(settings),
+            navigatorObservers: [MyRouteObserver()],
+            initialRoute: MyRouter.splash,
+            theme: ThemeData(
+              primarySwatch: Colors.yellow,
+              scaffoldBackgroundColor: Colors.white,
+              textTheme: GoogleFonts.latoTextTheme(
+                Theme.of(context).textTheme,
+              ),
             ),
+            debugShowCheckedModeBanner: false,
           ),
-          debugShowCheckedModeBanner: false,
         ),
       ),
     );

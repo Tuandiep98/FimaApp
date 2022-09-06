@@ -3,7 +3,7 @@ import '../base_entity_with_image.dart';
 
 part 'currency_entity.g.dart';
 
-@HiveType(typeId: 29)
+@HiveType(typeId: 2)
 class CurrencyEntity extends BaseEntityWithImage {
   @HiveField(3)
   String name;

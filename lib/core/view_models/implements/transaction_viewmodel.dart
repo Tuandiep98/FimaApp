@@ -11,6 +11,20 @@ class TransactionViewModel extends ChangeNotifier
   @override
   List<TransactionUIModel> transactionForDisplays;
 
+  var _colors = [
+    0xffDEEDCF,
+    0xffBFE1B0,
+    0xff99D492,
+    0xff74C67A,
+    0xff56B870,
+    0xff39A96B,
+    0xff1D9A6C,
+    0xff188977,
+    0xff137177,
+    0xff0E4D64,
+    0xff0A2F51,
+  ];
+
   @override
   void initTransactions() {
     _transactionForDisplays.clear();
@@ -20,5 +34,28 @@ class TransactionViewModel extends ChangeNotifier
     }
     transactionForDisplays = _transactionForDisplays;
     notifyListeners();
+  }
+
+  @override
+  int getColorActivitiesOfTheDay(DateTime dateTime) {
+    var transactionByDate = _transactionForDisplays
+        .where((x) =>
+            x.createdAt.day == dateTime.day &&
+            x.createdAt.month == dateTime.month &&
+            x.createdAt.year == dateTime.year)
+        .toList();
+
+    if (transactionByDate.length > 0) {
+      var length = transactionByDate.length;
+      var range = [1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+      for (var i = 0; i < range.length - 1; i++) {
+        if (range[i] < length && length < range[i + 1]) {
+          return _colors[i];
+        }
+      }
+      return _colors[0];
+    } else {
+      return 0xffffffff;
+    }
   }
 }

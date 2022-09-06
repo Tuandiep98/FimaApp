@@ -3,4 +3,5 @@ import 'package:fima/core/hive_database/entities/transaction_entity/transaction_
 abstract class ITransactionService {
   List<TransactionEntity> getTransactions();
   Future<void> insert(TransactionEntity transactionEntity);
+  Future<void> clearAll();
 }
