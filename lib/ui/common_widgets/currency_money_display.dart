@@ -8,14 +8,16 @@ final vCcy = new NumberFormat("#,##0", "vi_VN");
 class MoneyDisplay extends StatelessWidget {
   final int amount;
   final String currencySymbol;
-  const MoneyDisplay({Key key, this.amount = 0, this.currencySymbol = '\$'})
+  final Color color;
+  const MoneyDisplay(
+      {Key key, this.amount = 0, this.currencySymbol = '\$', this.color})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Text(
       '${vCcy.format(amount)}' + currencySymbol,
-      style: TextStyleUtils.regular(22),
+      style: TextStyleUtils.regular(22).copyWith(color: color ?? Colors.black),
     );
   }
 }

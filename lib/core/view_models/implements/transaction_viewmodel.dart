@@ -46,14 +46,18 @@ class TransactionViewModel extends ChangeNotifier
         .toList();
 
     if (transactionByDate.length > 0) {
-      var length = transactionByDate.length;
-      var range = [1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
-      for (var i = 0; i < range.length - 1; i++) {
-        if (range[i] < length && length < range[i + 1]) {
-          return _colors[i];
+      try {
+        var length = transactionByDate.length;
+        var range = [1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+        for (var i = 0; i < range.length - 1; i++) {
+          if (range[i] < length && length < range[i + 1]) {
+            return _colors[i];
+          }
         }
+        return _colors[0];
+      } catch (e) {
+        return 0xffffffff;
       }
-      return _colors[0];
     } else {
       return 0xffffffff;
     }
