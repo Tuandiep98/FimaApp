@@ -1,9 +1,13 @@
+import 'package:fima/global/global_data.dart';
+import 'package:fima/global/locator.dart';
 import 'package:fima/ui/home_screen/home_screen.dart';
 import 'package:fima/ui/setting_screen/setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ss_bottom_navbar/ss_bottom_navbar.dart';
 import 'package:provider/provider.dart';
+
+import '../add_transaction_screen/add_transaction_screen.dart';
 
 class BaseScreen extends StatefulWidget {
   const BaseScreen({Key key}) : super(key: key);
@@ -17,7 +21,7 @@ class _BaseScreenState extends State<BaseScreen> {
 
   final _screens = [
     HomeScreen(),
-    SettingScreen(),
+    AddTransactionScreen(),
     SettingScreen(),
   ];
   final items = [
@@ -71,15 +75,24 @@ class _BaseScreenState extends State<BaseScreen> {
             ListTile(
               leading: Icon(Icons.arrow_downward_rounded),
               title: Text('Expense'),
+              onTap: () {
+                locator<GlobalData>().transactionModeLabel = 'Expense';
+                Get.back();
+              },
             ),
             ListTile(
               leading: Icon(Icons.arrow_upward_rounded),
               title: Text('Income'),
+              onTap: () {
+                locator<GlobalData>().transactionModeLabel = 'Income';
+                Get.back();
+              },
             ),
             ListTile(
               leading: Icon(Icons.devices_other),
               title: Text('Other'),
               onTap: () {
+                locator<GlobalData>().transactionModeLabel = 'Other';
                 Get.back();
               },
             ),
