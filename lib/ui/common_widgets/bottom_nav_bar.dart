@@ -19,11 +19,7 @@ class BaseScreen extends StatefulWidget {
 class _BaseScreenState extends State<BaseScreen> {
   final _isVisible = true;
 
-  final _screens = [
-    HomeScreen(),
-    AddTransactionScreen(),
-    SettingScreen(),
-  ];
+  final _screens = [HomeScreen(), AddTransactionScreen(), SettingScreen()];
   final items = [
     SSBottomNavItem(text: 'Home', iconData: Icons.home, iconSize: 22),
     SSBottomNavItem(

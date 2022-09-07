@@ -1,3 +1,5 @@
+import 'package:fima/core/hive_database/entities/category_entity/category_entity.dart';
+import 'package:fima/core/services/interfaces/icategory_service.dart';
 import 'package:fima/core/utils/list_extension.dart';
 import 'package:uuid/uuid.dart';
 
@@ -29,10 +31,53 @@ class MockData {
         currencyService.getCurrencies().firstOrDefault((x) => x.code == 'VND');
     if (currenciesInDb == null)
       await locator<ICurrencyService>().insertAll(currencies);
+
+    var categories = [
+      CategoryEntity(
+        code: '001',
+        id: 'C01',
+        name: 'Food & Drinks',
+        image: '',
+        imageBase64: '',
+      ),
+      CategoryEntity(
+        code: '002',
+        id: 'C02',
+        name: 'Shopping',
+        image: '',
+        imageBase64: '',
+      ),
+      CategoryEntity(
+        code: '003',
+        id: 'C03',
+        name: 'Healthcare',
+        image: '',
+        imageBase64: '',
+      ),
+      CategoryEntity(
+        code: '004',
+        id: 'C04',
+        name: 'Travel',
+        image: '',
+        imageBase64: '',
+      ),
+      CategoryEntity(
+        code: '005',
+        id: 'C05',
+        name: 'Others',
+        image: '',
+        imageBase64: '',
+      ),
+    ];
+
+    var categoryService = locator<ICategoryService>();
+    await categoryService.clearAll();
+    await categoryService.insertAll(categories);
+
     List<TransactionEntity> transactionEntities = [
       TransactionEntity(
         id: 'ID01',
-        categoryId: '',
+        categoryId: categories[0].id,
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
         amount: 100000,
@@ -44,7 +89,7 @@ class MockData {
       ),
       TransactionEntity(
         id: 'ID02',
-        categoryId: '',
+        categoryId: categories[0].id,
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
         amount: 120000,
@@ -56,7 +101,7 @@ class MockData {
       ),
       TransactionEntity(
         id: 'ID03',
-        categoryId: '',
+        categoryId: categories[1].id,
         createdAt: DateTime.now().add(Duration(days: 1)),
         updatedAt: DateTime.now().add(Duration(days: 1)),
         amount: 100000,
@@ -68,7 +113,7 @@ class MockData {
       ),
       TransactionEntity(
         id: 'ID04',
-        categoryId: '',
+        categoryId: categories[1].id,
         createdAt: DateTime.now().add(Duration(days: 1)),
         updatedAt: DateTime.now().add(Duration(days: 1)),
         amount: 120000,
@@ -80,7 +125,7 @@ class MockData {
       ),
       TransactionEntity(
         id: 'ID05',
-        categoryId: '',
+        categoryId: categories[1].id,
         createdAt: DateTime.now().add(Duration(days: 1)),
         updatedAt: DateTime.now().add(Duration(days: 1)),
         amount: 100000,
@@ -92,7 +137,7 @@ class MockData {
       ),
       TransactionEntity(
         id: 'ID06',
-        categoryId: '',
+        categoryId: categories[2].id,
         createdAt: DateTime.now().add(Duration(days: 1)),
         updatedAt: DateTime.now().add(Duration(days: 1)),
         amount: 120000,
@@ -104,7 +149,7 @@ class MockData {
       ),
       TransactionEntity(
         id: 'ID07',
-        categoryId: '',
+        categoryId: categories[2].id,
         createdAt: DateTime.now().add(Duration(days: 1)),
         updatedAt: DateTime.now().add(Duration(days: 1)),
         amount: 100000,
@@ -116,7 +161,7 @@ class MockData {
       ),
       TransactionEntity(
         id: 'ID08',
-        categoryId: '',
+        categoryId: categories[2].id,
         createdAt: DateTime.now().add(Duration(days: 1)),
         updatedAt: DateTime.now().add(Duration(days: 1)),
         amount: 120000,
@@ -128,7 +173,7 @@ class MockData {
       ),
       TransactionEntity(
         id: 'ID09',
-        categoryId: '',
+        categoryId: categories[2].id,
         createdAt: DateTime.now().add(Duration(days: 1)),
         updatedAt: DateTime.now().add(Duration(days: 1)),
         amount: 100000,
@@ -140,7 +185,7 @@ class MockData {
       ),
       TransactionEntity(
         id: 'ID10',
-        categoryId: '',
+        categoryId: categories[2].id,
         createdAt: DateTime.now().add(Duration(days: 1)),
         updatedAt: DateTime.now().add(Duration(days: 1)),
         amount: 120000,
@@ -189,11 +234,8 @@ class MockData {
     ];
     var transactionService = locator<ITransactionService>();
     await transactionService.clearAll();
-    var transactionInDb = transactionService.getTransactions();
-    if (transactionInDb.length == 0) {
-      for (var transactionEntity in transactionEntities) {
-        await transactionService.insert(transactionEntity);
-      }
+    for (var transactionEntity in transactionEntities) {
+      await transactionService.insert(transactionEntity);
     }
   }
 }

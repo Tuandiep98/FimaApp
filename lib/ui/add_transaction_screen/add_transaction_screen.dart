@@ -96,7 +96,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        height: 100,
+                        height: 60,
                         width: MediaQuery.of(context).size.width - 20,
                         child: TextFormField(
                           controller: noteController,
