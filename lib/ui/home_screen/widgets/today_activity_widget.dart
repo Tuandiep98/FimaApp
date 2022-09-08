@@ -31,14 +31,23 @@ class TodayActivityWidget extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  'Today' + '(${transactions.length})',
+                  'Today',
                   style: TextStyleUtils.bold(30).copyWith(color: Colors.white),
                 ),
                 Spacer(),
-                Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  size: 16,
-                  color: Colors.white,
+                Row(
+                  children: [
+                    Text(
+                      '(${transactions.length})',
+                      style: TextStyleUtils.regular(20)
+                          .copyWith(color: Colors.white),
+                    ),
+                    Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      size: 16,
+                      color: Colors.white,
+                    ),
+                  ],
                 ),
               ],
             ),
