@@ -69,7 +69,7 @@ class _BaseScreenState extends State<BaseScreen> {
         child: Column(
           children: [
             ListTile(
-              leading: Icon(Icons.arrow_downward_rounded),
+              leading: Icon(Icons.arrow_upward_rounded),
               title: Text('Expense'),
               onTap: () {
                 locator<GlobalData>().transactionModeLabel = 'Expense';
@@ -77,7 +77,7 @@ class _BaseScreenState extends State<BaseScreen> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.arrow_upward_rounded),
+              leading: Icon(Icons.arrow_downward_rounded),
               title: Text('Income'),
               onTap: () {
                 locator<GlobalData>().transactionModeLabel = 'Income';

@@ -28,7 +28,7 @@ class _CategoriesTrackerWidgetState extends State<CategoriesTrackerWidget> {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width / 2 - 15,
-      height: 270,
+      height: 280,
       decoration: BoxDecoration(
         color: Color(0xffe67e22),
         borderRadius: BorderRadius.circular(5),

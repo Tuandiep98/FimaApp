@@ -14,76 +14,67 @@ class CategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      child: Row(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Container(
-          //   height: 40,
-          //   width: 40,
-          //   decoration: BoxDecoration(
-          //     shape: BoxShape.circle,
-          //     color: Colors.white,
-          //   ),
-          //   child: Icon(
-          //     Icons.access_time_filled_sharp,
-          //     color: Color(0xffe67e22),
-          //   ),
-          // ),
-          Padding(
-            padding: const EdgeInsets.only(left: 10),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 100,
+                child: Text(
                   category?.name ?? '[Category]',
-                  style: TextStyleUtils.bold(26).copyWith(color: Colors.white),
+                  maxLines: 2,
+                  overflow: TextOverflow.fade,
+                  style: TextStyleUtils.bold(24).copyWith(color: Colors.white),
                 ),
-                const SizedBox(height: 12),
-                Container(
-                  height: 10,
-                  width: 70,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.grey[300].withOpacity(0.5),
-                  ),
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        left: 0,
-                        bottom: 0,
-                        child: Container(
-                          height: 10,
-                          width: category?.percent ?? 45,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.white,
-                          ),
+              ),
+              const SizedBox(width: 10),
+              Spacer(),
+              MoneyDisplay(
+                amount: category?.totalAmount ?? 0,
+                currencySymbol: currencySymbol ?? '',
+                color: Colors.white,
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Container(
+                height: 10,
+                width: 100,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.grey[300].withOpacity(0.5),
+                ),
+                child: Stack(
+                  children: [
+                    Positioned(
+                      left: 0,
+                      bottom: 0,
+                      child: Container(
+                        height: 10,
+                        width: category?.percent ?? 45,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                MoneyDisplay(
-                  amount: category?.totalAmount ?? 0,
-                  currencySymbol: currencySymbol ?? '',
-                  color: Colors.white,
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  '${category?.percent?.toInt() ?? 0}%',
-                  style: TextStyleUtils.thin(26).copyWith(color: Colors.white),
-                ),
-              ],
-            ),
+              ),
+              const SizedBox(width: 10),
+              Spacer(),
+              Text(
+                '${(category.percent.toInt() > 100) ? 100 : category?.percent?.toInt() ?? 0}%',
+                style: TextStyleUtils.thin(22).copyWith(color: Colors.white),
+              ),
+            ],
           ),
         ],
       ),

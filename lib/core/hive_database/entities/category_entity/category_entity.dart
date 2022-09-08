@@ -53,7 +53,9 @@ class CategoryEntity extends BaseEntityWithImage {
       targetOfMonth: 0,
       totalAmount: totalAmount,
       totalAllMonth: totalAllMonth,
-      percent: totalAmount / totalAllMonth * 100,
+      percent: (totalAllMonth == 0 || totalAmount == 0)
+          ? 0
+          : totalAmount.abs() / totalAllMonth.abs() * 100,
     );
   }
 }
