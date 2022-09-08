@@ -19,7 +19,7 @@ class TodayActivityWidget extends StatelessWidget {
         .reduce((curr, next) => (curr.amount < next.amount) ? curr : next);
     return Container(
       width: MediaQuery.of(context).size.width / 2 - 15,
-      height: 280,
+      height: 285,
       decoration: BoxDecoration(
         color: Color(0xff1abc9c),
         borderRadius: BorderRadius.circular(5),
@@ -46,7 +46,7 @@ class TodayActivityWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Container(
-              height: 20,
+              height: 22,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(3),
                 color: Colors.white.withOpacity(0.15),
@@ -69,9 +69,8 @@ class TodayActivityWidget extends StatelessWidget {
                     ),
                   ),
                   SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
                     child: Container(
-                      width: 150,
+                      height: 20,
                       child: Row(
                         children: [
                           Icon(
