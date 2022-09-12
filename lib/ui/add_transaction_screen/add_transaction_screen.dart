@@ -1,4 +1,5 @@
 import 'package:fima/core/utils/text_style_utils.dart';
+import 'package:fima/core/view_models/interfaces/itransaction_viewmodel.dart';
 import 'package:fima/global/global_data.dart';
 import 'package:fima/global/locator.dart';
 import 'package:fima/global/router.dart';
@@ -6,6 +7,7 @@ import 'package:fima/ui/common_widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 class AddTransactionScreen extends StatefulWidget {
   const AddTransactionScreen({Key key}) : super(key: key);
@@ -19,9 +21,11 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
   TextEditingController noteController;
   bool isShowNote = false;
   FocusNode noteFocus;
+  ITransactionViewModel _viewModel;
 
   @override
   void initState() {
+    _viewModel = context.read<ITransactionViewModel>();
     amountController = MoneyMaskedTextController(
         decimalSeparator: ',',
         thousandSeparator: ',',
@@ -43,31 +47,37 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 60, 0, 5),
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
       child: Container(
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Get.offAllNamed(MyRouter.base);
-                  },
-                  child: Text(
-                    'Cancel',
-                    style: TextStyleUtils.bold(30)
-                        .copyWith(color: Colors.grey[400].withOpacity(0.7)),
+            const SizedBox(height: 40),
+            Container(
+              height: 60,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Get.offAllNamed(MyRouter.base);
+                    },
+                    child: Text(
+                      'Cancel',
+                      style: TextStyleUtils.bold(30)
+                          .copyWith(color: Colors.grey[400].withOpacity(0.7)),
+                    ),
                   ),
-                ),
-                Text(
-                  locator<GlobalData>().transactionModeLabel ?? 'Expense',
-                  style: TextStyleUtils.bold(30),
-                ),
-                const SizedBox(width: 50),
-              ],
+                  Consumer<ITransactionViewModel>(builder: (_, __, ___) {
+                    return Text(
+                      _viewModel.transactionModeLabel ?? 'Expense',
+                      style: TextStyleUtils.bold(30),
+                    );
+                  }),
+                  const SizedBox(width: 50),
+                ],
+              ),
             ),
-            const SizedBox(height: 100),
+            const SizedBox(height: 80),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

@@ -8,5 +8,4 @@ class GlobalData {
   String currencySymbol;
   String logLevel = 'Error';
   bool isSynchronizing = false;
-  String transactionModeLabel = 'Expense';
 }

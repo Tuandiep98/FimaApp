@@ -5,18 +5,37 @@ import 'package:fima/ui/common_widgets/no_data_to_display.dart';
 import 'package:fima/ui/home_screen/widgets/transaction_card.dart';
 import 'package:flutter/material.dart';
 
-class TodayActivityWidget extends StatelessWidget {
+class TodayActivityWidget extends StatefulWidget {
   final List<TransactionUIModel> transactions;
   const TodayActivityWidget({Key key, this.transactions}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    var expense = transactions
+  _TodayActivityWidgetState createState() => _TodayActivityWidgetState();
+}
+
+class _TodayActivityWidgetState extends State<TodayActivityWidget> {
+  var expense;
+  var income;
+
+  @override
+  void initState() {
+    super.initState();
+    _initData();
+  }
+
+  void _initData() {
+    expense = widget.transactions
         .where((x) => x.type == 0)
+        .toList()
         .reduce((curr, next) => (curr.amount > next.amount) ? curr : next);
-    var income = transactions
+    income = widget.transactions
         .where((x) => x.type == 1)
+        .toList()
         .reduce((curr, next) => (curr.amount < next.amount) ? curr : next);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width / 2 - 15,
       height: 285,
@@ -36,10 +55,11 @@ class TodayActivityWidget extends StatelessWidget {
                 ),
                 Spacer(),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      '(${transactions.length})',
-                      style: TextStyleUtils.regular(20)
+                      '(${widget.transactions.length})',
+                      style: TextStyleUtils.regular(22)
                           .copyWith(color: Colors.white),
                     ),
                     Icon(
@@ -88,8 +108,8 @@ class TodayActivityWidget extends StatelessWidget {
                             color: Colors.green,
                           ),
                           MoneyDisplay(
-                            amount: expense.amount,
-                            currencySymbol: expense.currencySymbol ?? 'đ',
+                            amount: expense?.amount ?? 0,
+                            currencySymbol: expense?.currencySymbol ?? 'đ',
                             color: Colors.white60,
                           ),
                           Icon(
@@ -98,8 +118,8 @@ class TodayActivityWidget extends StatelessWidget {
                             color: Colors.red,
                           ),
                           MoneyDisplay(
-                            amount: income.amount,
-                            currencySymbol: income.currencySymbol ?? 'đ',
+                            amount: income?.amount ?? 0,
+                            currencySymbol: income?.currencySymbol ?? 'đ',
                             color: Colors.white60,
                           ),
                         ],
@@ -111,12 +131,12 @@ class TodayActivityWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
-          transactions != null && transactions.length > 0
+          widget.transactions != null && widget.transactions.length > 0
               ? Container(
                   height: 200,
                   child: SingleChildScrollView(
                     child: Column(
-                      children: transactions
+                      children: widget.transactions
                           .map((e) => TransactionCard(transaction: e))
                           .toList(),
                     ),

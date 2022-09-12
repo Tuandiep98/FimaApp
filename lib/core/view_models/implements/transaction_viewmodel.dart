@@ -11,6 +11,10 @@ class TransactionViewModel extends ChangeNotifier
   @override
   List<TransactionUIModel> transactionForDisplays;
 
+  String _transactionModeLabel = 'Expense';
+  @override
+  String get transactionModeLabel => _transactionModeLabel;
+
   var _colors = [
     0xffDEEDCF,
     0xffBFE1B0,
@@ -61,5 +65,11 @@ class TransactionViewModel extends ChangeNotifier
     } else {
       return 0xffffffff;
     }
+  }
+
+  @override
+  void setTransactionModeLabel(String newLabel) {
+    _transactionModeLabel = newLabel;
+    notifyListeners();
   }
 }

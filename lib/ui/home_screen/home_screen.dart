@@ -1,6 +1,7 @@
 import 'package:calendar_view/calendar_view.dart';
 import 'package:fima/core/utils/text_style_utils.dart';
 import 'package:fima/core/view_models/interfaces/itransaction_viewmodel.dart';
+import 'package:fima/ui/common_widgets/no_data_to_display.dart';
 import 'package:fima/ui/common_widgets/title_txt.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -32,11 +33,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 40, 0, 5),
+      padding: const EdgeInsets.only(bottom: 5),
       child: SingleChildScrollView(
         child: Column(
           children: [
             // TitleText(title: 'Month calendar'),
+            const SizedBox(height: 40),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Container(
@@ -91,20 +93,25 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Consumer<ITransactionViewModel>(
                       builder: (_, _viewModel, ___) {
-                    return TodayActivityWidget(
-                        transactions: _viewModel.transactionForDisplays !=
-                                    null &&
-                                _viewModel.transactionForDisplays.length > 0
-                            ? _viewModel.transactionForDisplays
-                                .where((x) =>
-                                    x.createdAt.day == DateTime.now().day &&
-                                    x.createdAt.month == DateTime.now().month &&
-                                    x.createdAt.year == DateTime.now().year)
-                                .toList()
-                            : []);
+                    return _viewModel.transactionForDisplays != null &&
+                            _viewModel.transactionForDisplays.length > 0
+                        ? TodayActivityWidget(
+                            transactions: _viewModel.transactionForDisplays !=
+                                        null &&
+                                    _viewModel.transactionForDisplays.length > 0
+                                ? _viewModel.transactionForDisplays
+                                    .where((x) =>
+                                        x.createdAt.day == DateTime.now().day &&
+                                        x.createdAt.month ==
+                                            DateTime.now().month &&
+                                        x.createdAt.year == DateTime.now().year)
+                                    .toList()
+                                : [])
+                        : NoDataToDisplay();
                   }),
                   Spacer(),
                   CategoriesTrackerWidget(),

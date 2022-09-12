@@ -1,3 +1,4 @@
+import 'package:fima/core/view_models/interfaces/itransaction_viewmodel.dart';
 import 'package:fima/global/global_data.dart';
 import 'package:fima/global/locator.dart';
 import 'package:fima/ui/home_screen/home_screen.dart';
@@ -72,7 +73,9 @@ class _BaseScreenState extends State<BaseScreen> {
               leading: Icon(Icons.arrow_upward_rounded),
               title: Text('Expense'),
               onTap: () {
-                locator<GlobalData>().transactionModeLabel = 'Expense';
+                context
+                    .read<ITransactionViewModel>()
+                    .setTransactionModeLabel('Expense');
                 Get.back();
               },
             ),
@@ -80,7 +83,9 @@ class _BaseScreenState extends State<BaseScreen> {
               leading: Icon(Icons.arrow_downward_rounded),
               title: Text('Income'),
               onTap: () {
-                locator<GlobalData>().transactionModeLabel = 'Income';
+                context
+                    .read<ITransactionViewModel>()
+                    .setTransactionModeLabel('Income');
                 Get.back();
               },
             ),
@@ -88,7 +93,9 @@ class _BaseScreenState extends State<BaseScreen> {
               leading: Icon(Icons.devices_other),
               title: Text('Other'),
               onTap: () {
-                locator<GlobalData>().transactionModeLabel = 'Other';
+                context
+                    .read<ITransactionViewModel>()
+                    .setTransactionModeLabel('Other');
                 Get.back();
               },
             ),
