@@ -1,7 +1,5 @@
 import 'package:fima/core/utils/text_style_utils.dart';
 import 'package:fima/core/view_models/interfaces/itransaction_viewmodel.dart';
-import 'package:fima/global/global_data.dart';
-import 'package:fima/global/locator.dart';
 import 'package:fima/global/router.dart';
 import 'package:fima/ui/common_widgets/custom_button.dart';
 import 'package:flutter/material.dart';

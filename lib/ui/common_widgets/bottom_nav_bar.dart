@@ -1,6 +1,4 @@
 import 'package:fima/core/view_models/interfaces/itransaction_viewmodel.dart';
-import 'package:fima/global/global_data.dart';
-import 'package:fima/global/locator.dart';
 import 'package:fima/ui/home_screen/home_screen.dart';
 import 'package:fima/ui/setting_screen/setting_screen.dart';
 import 'package:flutter/material.dart';

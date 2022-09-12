@@ -52,6 +52,7 @@ dependencies:
   google_fonts: ^1.1.2
   calendar_view: ^1.0.0
   flutter_masked_text: ^0.8.0
+  selection_menu: ^2.0.2
 
 dev_dependencies:
   flutter_test:
