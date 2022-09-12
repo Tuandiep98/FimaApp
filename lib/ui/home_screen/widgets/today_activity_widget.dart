@@ -4,6 +4,7 @@ import 'package:fima/ui/common_widgets/currency_money_display.dart';
 import 'package:fima/ui/common_widgets/no_data_to_display.dart';
 import 'package:fima/ui/home_screen/widgets/transaction_card.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 class TodayActivityWidget extends StatefulWidget {
   final List<TransactionUIModel> transactions;
@@ -144,6 +145,87 @@ class _TodayActivityWidgetState extends State<TodayActivityWidget> {
                 )
               : NoDataToDisplay(hideImg: true),
         ],
+      ),
+    );
+  }
+}
+
+class TodayActivityWidgetShimmer extends StatelessWidget {
+  const TodayActivityWidgetShimmer({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width / 2 - 15,
+      height: 285,
+      decoration: BoxDecoration(
+        color: Colors.grey[300],
+        borderRadius: BorderRadius.circular(5),
+      ),
+      child: Shimmer.fromColors(
+        baseColor: Colors.grey[300],
+        highlightColor: Colors.grey[100],
+        child: Container(
+          width: MediaQuery.of(context).size.width / 2 - 15,
+          height: 285,
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(15),
+                child: Row(
+                  children: [
+                    Text(
+                      'Today',
+                      style:
+                          TextStyleUtils.bold(30).copyWith(color: Colors.white),
+                    ),
+                    Spacer(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          '',
+                          style: TextStyleUtils.regular(22)
+                              .copyWith(color: Colors.white),
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          size: 16,
+                          color: Colors.white,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Container(
+                  height: 22,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(3),
+                    color: Colors.white,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SizedBox(),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              // TransactionCardShimmer(),
+              // ListView.builder(
+              //   itemCount: 2,
+              //   itemBuilder: (_, __) {
+              //     return TransactionCardShimmer();
+              //   },
+              // ),
+            ],
+          ),
+        ),
       ),
     );
   }

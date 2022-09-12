@@ -23,7 +23,7 @@ class _BaseScreenState extends State<BaseScreen> {
     SSBottomNavItem(text: 'Home', iconData: Icons.home, iconSize: 22),
     SSBottomNavItem(
         text: 'Add', iconData: Icons.add, iconSize: 22, isIconOnly: true),
-    SSBottomNavItem(text: 'Profile', iconData: Icons.person, iconSize: 22),
+    SSBottomNavItem(text: 'Profile', iconData: Icons.person, iconSize: 22)
   ];
 
   @override
@@ -38,6 +38,7 @@ class _BaseScreenState extends State<BaseScreen> {
       child: Consumer<SSBottomBarState>(
         builder: (context, state, _) {
           return Scaffold(
+            backgroundColor: Colors.grey[100],
             body: IndexedStack(
               index: state.selected,
               children: _buildPages(),

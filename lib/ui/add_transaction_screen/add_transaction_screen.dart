@@ -21,6 +21,14 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
   FocusNode noteFocus;
   ITransactionViewModel _viewModel;
 
+  final List<String> items = [
+    'Item1',
+    'Item2',
+    'Item3',
+    'Item4',
+  ];
+  String selectedValue;
+
   @override
   void initState() {
     _viewModel = context.read<ITransactionViewModel>();

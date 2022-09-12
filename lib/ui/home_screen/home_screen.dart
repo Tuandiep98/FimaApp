@@ -1,7 +1,6 @@
 import 'package:calendar_view/calendar_view.dart';
 import 'package:fima/core/utils/text_style_utils.dart';
 import 'package:fima/core/view_models/interfaces/itransaction_viewmodel.dart';
-import 'package:fima/ui/common_widgets/no_data_to_display.dart';
 import 'package:fima/ui/common_widgets/title_txt.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -37,7 +36,6 @@ class _HomeScreenState extends State<HomeScreen> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            // TitleText(title: 'Month calendar'),
             const SizedBox(height: 40),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -111,30 +109,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                         x.createdAt.year == DateTime.now().year)
                                     .toList()
                                 : [])
-                        : NoDataToDisplay();
+                        : TodayActivityWidgetShimmer();
                   }),
                   Spacer(),
                   CategoriesTrackerWidget(),
                 ],
               ),
             ),
-            // Container(
-            //   height: MediaQuery.of(context).size.height / 2,
-            //   child: SingleChildScrollView(
-            //     child: Consumer<ITransactionViewModel>(
-            //       builder: (_, __, ___) {
-            //         return _viewModel.transactionForDisplays != null &&
-            //                 _viewModel.transactionForDisplays.length > 0
-            //             ? Column(
-            //                 children: _viewModel.transactionForDisplays
-            //                     .map((e) => TransactionCard(transaction: e))
-            //                     .toList(),
-            //               )
-            //             : NoDataToDisplay();
-            //       },
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),
