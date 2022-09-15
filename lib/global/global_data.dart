@@ -1,4 +1,6 @@
 import 'package:fima/core/hive_database/entities/currency_entity/currency_entity.dart';
+import 'package:fima/core/ui_model/category_ui_model.dart';
+import 'package:fima/core/utils/enum.dart';
 
 class GlobalData {
   GlobalData();
@@ -8,5 +10,34 @@ class GlobalData {
   String currencySymbol;
   String logLevel = 'Error';
   bool isSynchronizing = false;
-  String transactionModeLabel = 'Expense';
+  CategoryUIModel categorySelected;
+  TransactionType transactionType;
+
+  String getTransactionTypeLabel() {
+    switch (transactionType) {
+      case TransactionType.Expense:
+        return 'Expense';
+        break;
+      case TransactionType.Income:
+        return 'Income';
+      case TransactionType.Others:
+        return 'Others';
+      default:
+        return 'Others';
+    }
+  }
+
+  int getTransactionType() {
+    switch (transactionType) {
+      case TransactionType.Expense:
+        return 0;
+        break;
+      case TransactionType.Income:
+        return 1;
+      case TransactionType.Others:
+        return 2;
+      default:
+        return 2;
+    }
+  }
 }

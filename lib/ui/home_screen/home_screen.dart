@@ -32,11 +32,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 40, 0, 5),
+      padding: const EdgeInsets.only(bottom: 5),
       child: SingleChildScrollView(
         child: Column(
           children: [
-            // TitleText(title: 'Month calendar'),
+            const SizedBox(height: 40),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Container(
@@ -91,43 +91,25 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Consumer<ITransactionViewModel>(
                       builder: (_, _viewModel, ___) {
-                    return TodayActivityWidget(
-                        transactions: _viewModel.transactionForDisplays !=
-                                    null &&
-                                _viewModel.transactionForDisplays.length > 0
-                            ? _viewModel.transactionForDisplays
-                                .where((x) =>
-                                    x.createdAt.day == DateTime.now().day &&
-                                    x.createdAt.month == DateTime.now().month &&
-                                    x.createdAt.year == DateTime.now().year)
-                                .toList()
-                            : []);
+                    return _viewModel.transactionForDisplays != null &&
+                            _viewModel.transactionForDisplays.length > 0
+                        ? TodayActivityWidget(
+                            transactions: _viewModel.transactionForDisplays !=
+                                        null &&
+                                    _viewModel.transactionForDisplays.length > 0
+                                ? _viewModel.transactionForDisplays
+                                : [])
+                        : TodayActivityWidgetShimmer();
                   }),
                   Spacer(),
                   CategoriesTrackerWidget(),
                 ],
               ),
             ),
-            // Container(
-            //   height: MediaQuery.of(context).size.height / 2,
-            //   child: SingleChildScrollView(
-            //     child: Consumer<ITransactionViewModel>(
-            //       builder: (_, __, ___) {
-            //         return _viewModel.transactionForDisplays != null &&
-            //                 _viewModel.transactionForDisplays.length > 0
-            //             ? Column(
-            //                 children: _viewModel.transactionForDisplays
-            //                     .map((e) => TransactionCard(transaction: e))
-            //                     .toList(),
-            //               )
-            //             : NoDataToDisplay();
-            //       },
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),

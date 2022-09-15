@@ -39,6 +39,7 @@ class TransactionEntity extends BaseEntity {
 
   TransactionUIModel toUIModel() {
     return TransactionUIModel(
+      id: this.id,
       categoryId: this.categoryId,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,

@@ -1,15 +1,30 @@
+import 'package:fima/core/hive_database/entities/transaction_entity/transaction_entity.dart';
+import 'package:fima/core/services/interfaces/icategory_service.dart';
 import 'package:fima/core/services/interfaces/itransaction_service.dart';
+import 'package:fima/core/ui_model/category_ui_model.dart';
 import 'package:fima/core/ui_model/transaction_ui_model.dart';
+import 'package:fima/core/utils/enum.dart';
+import 'package:fima/core/utils/logger_utils.dart';
+import 'package:fima/global/global_data.dart';
 import 'package:fima/global/locator.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 import '../interfaces/itransaction_viewmodel.dart';
 
 class TransactionViewModel extends ChangeNotifier
     implements ITransactionViewModel {
+  var _categoryService = locator<ICategoryService>();
+  var _transactionService = locator<ITransactionService>();
+  var _globalData = locator<GlobalData>();
+
   List<TransactionUIModel> _transactionForDisplays = [];
   @override
   List<TransactionUIModel> transactionForDisplays;
+
+  String _transactionModeLabel = 'Expense';
+  @override
+  String get transactionModeLabel => _transactionModeLabel;
 
   var _colors = [
     0xffDEEDCF,
@@ -32,7 +47,13 @@ class TransactionViewModel extends ChangeNotifier
     if (transactions.length > 0) {
       _transactionForDisplays = transactions.map((e) => e.toUIModel()).toList();
     }
-    transactionForDisplays = _transactionForDisplays;
+    transactionForDisplays = _transactionForDisplays
+        .where((x) =>
+            x.createdAt.day == DateTime.now().day &&
+            x.createdAt.month == DateTime.now().month &&
+            x.createdAt.year == DateTime.now().year)
+        .toList();
+    transactionForDisplays.sort((a, b) => b.createdAt.compareTo(a.createdAt));
     notifyListeners();
   }
 
@@ -60,6 +81,41 @@ class TransactionViewModel extends ChangeNotifier
       }
     } else {
       return 0xffffffff;
+    }
+  }
+
+  @override
+  void setTransactionModeLabel(TransactionType type) {
+    locator<GlobalData>().transactionType = type;
+    _transactionModeLabel = locator<GlobalData>().getTransactionTypeLabel();
+    notifyListeners();
+  }
+
+  @override
+  List<CategoryUIModel> getCategories() {
+    return _categoryService.getCategories().map((e) => e.toUIModel()).toList();
+  }
+
+  @override
+  Future<void> createTransaction(double amount, String note) async {
+    try {
+      var _category = _globalData.categorySelected;
+      TransactionEntity newTransaction = TransactionEntity(
+        id: Uuid().v4(),
+        categoryId: _category.id,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        amount: amount.toInt() * 1000,
+        type: _globalData.getTransactionType(),
+        currencyId: _globalData.currentCurrency.id,
+        currencySymbol: _globalData.currentCurrency.symbol,
+        note: note,
+        bank: '',
+      );
+      await _transactionService.insert(newTransaction);
+      initTransactions();
+    } catch (e) {
+      await LoggerUtils.logException(e);
     }
   }
 }

@@ -1,4 +1,7 @@
+import 'package:fima/core/hive_database/entities/transaction_entity/transaction_entity.dart';
+
 class TransactionUIModel {
+  String id;
   String categoryId;
   DateTime createdAt;
   DateTime updatedAt;
@@ -10,6 +13,7 @@ class TransactionUIModel {
   String bank;
 
   TransactionUIModel({
+    this.id,
     this.categoryId,
     this.createdAt,
     this.updatedAt,
@@ -20,4 +24,19 @@ class TransactionUIModel {
     this.note,
     this.bank,
   });
+
+  TransactionEntity toEntity() {
+    return TransactionEntity(
+      id: this.id,
+      categoryId: this.categoryId,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+      amount: this.amount,
+      type: this.type,
+      currencyId: this.currencyId,
+      currencySymbol: this.currencySymbol,
+      note: this.note,
+      bank: this.bank,
+    );
+  }
 }

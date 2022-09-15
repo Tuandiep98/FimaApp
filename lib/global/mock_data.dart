@@ -1,6 +1,7 @@
 import 'package:fima/core/hive_database/entities/category_entity/category_entity.dart';
 import 'package:fima/core/services/interfaces/icategory_service.dart';
 import 'package:fima/core/utils/list_extension.dart';
+import 'package:fima/global/global_data.dart';
 import 'package:uuid/uuid.dart';
 
 import '../core/hive_database/entities/currency_entity/currency_entity.dart';
@@ -26,6 +27,7 @@ class MockData {
         top: 0,
       ),
     ];
+    locator<GlobalData>().currentCurrency = currencies.first;
     var currencyService = locator<ICurrencyService>();
     var currenciesInDb =
         currencyService.getCurrencies().firstOrDefault((x) => x.code == 'VND');

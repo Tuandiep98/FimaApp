@@ -51,3 +51,22 @@ class TransactionCard extends StatelessWidget {
     );
   }
 }
+
+class TransactionCardShimmer extends StatelessWidget {
+  const TransactionCardShimmer({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(10, 3, 10, 3),
+      child: Container(
+        height: 60,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(3),
+        ),
+        child: Text(''),
+      ),
+    );
+  }
+}

@@ -1,4 +1,5 @@
 class CategoryUIModel {
+  String id;
   String name;
   String code;
   String image;
@@ -9,6 +10,7 @@ class CategoryUIModel {
   double percent;
 
   CategoryUIModel({
+    this.id,
     this.name,
     this.code,
     this.image,

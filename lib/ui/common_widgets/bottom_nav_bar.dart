@@ -1,5 +1,5 @@
-import 'package:fima/global/global_data.dart';
-import 'package:fima/global/locator.dart';
+import 'package:fima/core/utils/enum.dart';
+import 'package:fima/core/view_models/interfaces/itransaction_viewmodel.dart';
 import 'package:fima/ui/home_screen/home_screen.dart';
 import 'package:fima/ui/setting_screen/setting_screen.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +24,7 @@ class _BaseScreenState extends State<BaseScreen> {
     SSBottomNavItem(text: 'Home', iconData: Icons.home, iconSize: 22),
     SSBottomNavItem(
         text: 'Add', iconData: Icons.add, iconSize: 22, isIconOnly: true),
-    SSBottomNavItem(text: 'Profile', iconData: Icons.person, iconSize: 22),
+    SSBottomNavItem(text: 'Profile', iconData: Icons.person, iconSize: 22)
   ];
 
   @override
@@ -39,6 +39,7 @@ class _BaseScreenState extends State<BaseScreen> {
       child: Consumer<SSBottomBarState>(
         builder: (context, state, _) {
           return Scaffold(
+            backgroundColor: Colors.grey[100],
             body: IndexedStack(
               index: state.selected,
               children: _buildPages(),
@@ -72,7 +73,9 @@ class _BaseScreenState extends State<BaseScreen> {
               leading: Icon(Icons.arrow_upward_rounded),
               title: Text('Expense'),
               onTap: () {
-                locator<GlobalData>().transactionModeLabel = 'Expense';
+                context
+                    .read<ITransactionViewModel>()
+                    .setTransactionModeLabel(TransactionType.Expense);
                 Get.back();
               },
             ),
@@ -80,7 +83,9 @@ class _BaseScreenState extends State<BaseScreen> {
               leading: Icon(Icons.arrow_downward_rounded),
               title: Text('Income'),
               onTap: () {
-                locator<GlobalData>().transactionModeLabel = 'Income';
+                context
+                    .read<ITransactionViewModel>()
+                    .setTransactionModeLabel(TransactionType.Income);
                 Get.back();
               },
             ),
@@ -88,7 +93,9 @@ class _BaseScreenState extends State<BaseScreen> {
               leading: Icon(Icons.devices_other),
               title: Text('Other'),
               onTap: () {
-                locator<GlobalData>().transactionModeLabel = 'Other';
+                context
+                    .read<ITransactionViewModel>()
+                    .setTransactionModeLabel(TransactionType.Others);
                 Get.back();
               },
             ),
