@@ -1,7 +1,9 @@
 import 'package:fima/core/hive_database/entities/transaction_entity/transaction_entity.dart';
 import 'package:fima/core/services/interfaces/icategory_service.dart';
+import 'package:fima/core/services/interfaces/ipayment_method_service.dart';
 import 'package:fima/core/services/interfaces/itransaction_service.dart';
 import 'package:fima/core/ui_model/category_ui_model.dart';
+import 'package:fima/core/ui_model/payment_method_ui_model.dart';
 import 'package:fima/core/ui_model/transaction_ui_model.dart';
 import 'package:fima/core/utils/enum.dart';
 import 'package:fima/core/utils/logger_utils.dart';
@@ -16,6 +18,7 @@ class TransactionViewModel extends ChangeNotifier
     implements ITransactionViewModel {
   var _categoryService = locator<ICategoryService>();
   var _transactionService = locator<ITransactionService>();
+  var _paymentMethodService = locator<IPaymentMethodService>();
   var _globalData = locator<GlobalData>();
 
   List<TransactionUIModel> _transactionForDisplays = [];
@@ -117,5 +120,13 @@ class TransactionViewModel extends ChangeNotifier
     } catch (e) {
       await LoggerUtils.logException(e);
     }
+  }
+
+  @override
+  List<PaymentMethodUIModel> getPaymentMethods() {
+    return _paymentMethodService
+        .getPaymentMethods()
+        .map((e) => e.toUIModel())
+        .toList();
   }
 }

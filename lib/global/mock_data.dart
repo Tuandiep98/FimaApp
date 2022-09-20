@@ -1,5 +1,7 @@
 import 'package:fima/core/hive_database/entities/category_entity/category_entity.dart';
+import 'package:fima/core/hive_database/entities/payment_method_entity/payment_method_entity.dart';
 import 'package:fima/core/services/interfaces/icategory_service.dart';
+import 'package:fima/core/services/interfaces/ipayment_method_service.dart';
 import 'package:fima/core/utils/list_extension.dart';
 import 'package:fima/global/global_data.dart';
 import 'package:uuid/uuid.dart';
@@ -72,6 +74,7 @@ class MockData {
       ),
     ];
 
+    locator<GlobalData>().categorySelected = categories.first.toUIModel();
     var categoryService = locator<ICategoryService>();
     await categoryService.clearAll();
     await categoryService.insertAll(categories);
@@ -239,5 +242,29 @@ class MockData {
     for (var transactionEntity in transactionEntities) {
       await transactionService.insert(transactionEntity);
     }
+
+    List<PaymentMethodEntity> paymentMethods = [
+      PaymentMethodEntity(
+        id: Uuid().v4(),
+        code: '001',
+        name: 'Cash',
+      ),
+      PaymentMethodEntity(
+        id: Uuid().v4(),
+        code: '002',
+        name: 'Card',
+      ),
+      PaymentMethodEntity(
+        id: Uuid().v4(),
+        code: '003',
+        name: 'Others',
+      ),
+    ];
+
+    locator<GlobalData>().paymentMethodSelected =
+        paymentMethods.first.toUIModel();
+    var paymentMethodService = locator<IPaymentMethodService>();
+    await paymentMethodService.clearAll();
+    await paymentMethodService.insertAll(paymentMethods);
   }
 }

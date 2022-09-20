@@ -1,5 +1,6 @@
 import 'package:fima/core/hive_database/entities/currency_entity/currency_entity.dart';
 import 'package:fima/core/ui_model/category_ui_model.dart';
+import 'package:fima/core/ui_model/payment_method_ui_model.dart';
 import 'package:fima/core/utils/enum.dart';
 
 class GlobalData {
@@ -12,6 +13,7 @@ class GlobalData {
   bool isSynchronizing = false;
   CategoryUIModel categorySelected;
   TransactionType transactionType;
+  PaymentMethodUIModel paymentMethodSelected;
 
   String getTransactionTypeLabel() {
     switch (transactionType) {

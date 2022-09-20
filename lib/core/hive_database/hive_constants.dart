@@ -3,18 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 import 'entities/category_entity/category_entity.dart';
+import 'entities/payment_method_entity/payment_method_entity.dart';
 import 'entities/transaction_entity/transaction_entity.dart';
 
 class HiveBoxName {
   static const String transactions = 'transactions'; // 1
   static const String currencies = 'currencies'; // 2
   static const String categories = 'categories'; // 3
+  static const String paymentMethods = 'paymentMethods'; // 4
 }
 
 class HiveTypes {
   static const transactions = 1;
   static const currencies = 2;
-  static const categpries = 3;
+  static const categories = 3;
+  static const paymentMethods = 4;
 }
 
 class HiveBoxMap {
@@ -35,6 +38,12 @@ class HiveBoxMap {
       boxName: HiveBoxName.categories,
       registerAdapterFunction: () {
         Hive.registerAdapter(CategoryEntityAdapter());
+      },
+    ),
+    PaymentMethodEntity: MyHive<PaymentMethodEntity>(
+      boxName: HiveBoxName.paymentMethods,
+      registerAdapterFunction: () {
+        Hive.registerAdapter(PaymentMethodEntityAdapter());
       },
     ),
   };
