@@ -118,7 +118,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
       child: SingleChildScrollView(
         child: Container(
-          height: MediaQuery.of(context).size.height - 50,
+          height: MediaQuery.of(context).size.height - 100,
           child: Column(
             children: [
               const SizedBox(height: 40),
@@ -237,7 +237,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                               locator<GlobalData>()
                                       .paymentMethodSelected
                                       ?.name ??
-                                  '[payment-method-name]',
+                                  '[payment-method]',
                               style: TextStyleUtils.light(30)
                                   .copyWith(color: Colors.grey[500]),
                             ),
