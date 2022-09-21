@@ -50,12 +50,7 @@ class TransactionViewModel extends ChangeNotifier
     if (transactions.length > 0) {
       _transactionForDisplays = transactions.map((e) => e.toUIModel()).toList();
     }
-    transactionForDisplays = _transactionForDisplays
-        .where((x) =>
-            x.createdAt.day == DateTime.now().day &&
-            x.createdAt.month == DateTime.now().month &&
-            x.createdAt.year == DateTime.now().year)
-        .toList();
+    transactionForDisplays = _transactionForDisplays;
     transactionForDisplays.sort((a, b) => b.createdAt.compareTo(a.createdAt));
     notifyListeners();
   }

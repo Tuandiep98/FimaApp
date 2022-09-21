@@ -96,13 +96,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   Consumer<ITransactionViewModel>(
                       builder: (_, _viewModel, ___) {
                     return _viewModel.transactionForDisplays != null &&
-                            _viewModel.transactionForDisplays.length > 0
+                            _viewModel.transactionForDisplays?.length > 0
                         ? TodayActivityWidget(
-                            transactions: _viewModel.transactionForDisplays !=
-                                        null &&
-                                    _viewModel.transactionForDisplays.length > 0
-                                ? _viewModel.transactionForDisplays
-                                : [])
+                            transactions: _viewModel.transactionForDisplays
+                                .where((x) =>
+                                    x.createdAt.day == DateTime.now().day &&
+                                    x.createdAt.month == DateTime.now().month &&
+                                    x.createdAt.year == DateTime.now().year)
+                                .toList())
                         : TodayActivityWidgetShimmer();
                   }),
                   Spacer(),

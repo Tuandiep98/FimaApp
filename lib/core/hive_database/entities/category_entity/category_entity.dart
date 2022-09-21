@@ -31,11 +31,10 @@ class CategoryEntity extends BaseEntityWithImage {
     var totalAllMonth = 0;
     if (transactions.length > 0) {
       var transactionOfCurrentMonth = transactions
-          .where((x) => this.name == 'Others'
-              ? (x.categoryId == '')
-              : (x.categoryId == this.id &&
-                  x.createdAt.month == DateTime.now().month &&
-                  x.createdAt.year == DateTime.now().year))
+          .where((x) =>
+              x.categoryId == this.id &&
+              x.createdAt.month == DateTime.now().month &&
+              x.createdAt.year == DateTime.now().year)
           .toList();
       for (var transaction in transactionOfCurrentMonth) {
         totalAllMonth += transaction.amount;
@@ -46,6 +45,7 @@ class CategoryEntity extends BaseEntityWithImage {
       }
     }
     return CategoryUIModel(
+      id: this.id,
       code: this.code,
       image: this.image,
       imageBase64: this.imageBase64,

@@ -21,18 +21,22 @@ class _TodayActivityWidgetState extends State<TodayActivityWidget> {
   @override
   void initState() {
     super.initState();
-    _initData();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _initData();
+    });
   }
 
   void _initData() {
-    expense = widget.transactions
-        .where((x) => x.type == 0)
-        .toList()
-        .reduce((curr, next) => (curr.amount > next.amount) ? curr : next);
-    income = widget.transactions
-        .where((x) => x.type == 1)
-        .toList()
-        .reduce((curr, next) => (curr.amount < next.amount) ? curr : next);
+    if (widget.transactions.length > 0) {
+      expense = widget.transactions
+          .where((x) => x.type == 0)
+          .toList()
+          .reduce((curr, next) => (curr.amount < next.amount) ? curr : next);
+      income = widget.transactions
+          .where((x) => x.type == 1)
+          .toList()
+          .reduce((curr, next) => (curr.amount < next.amount) ? curr : next);
+    }
   }
 
   @override
@@ -82,7 +86,7 @@ class _TodayActivityWidgetState extends State<TodayActivityWidget> {
                 color: Colors.white.withOpacity(0.15),
               ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(

@@ -237,7 +237,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                               locator<GlobalData>()
                                       .paymentMethodSelected
                                       ?.name ??
-                                  '[payment-method]',
+                                  '[payment]',
                               style: TextStyleUtils.light(30)
                                   .copyWith(color: Colors.grey[500]),
                             ),
@@ -266,7 +266,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                           const SizedBox(width: 5),
                           Text(
                             locator<GlobalData>().categorySelected?.name ??
-                                '[category-name]',
+                                '[category]',
                             style: TextStyleUtils.light(30)
                                 .copyWith(color: Colors.grey[500]),
                           ),
@@ -281,6 +281,10 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                           await _viewModel.createTransaction(
                               amountController.numberValue,
                               noteController.text);
+
+                          context
+                              .read<ITransactionViewModel>()
+                              .initTransactions();
                           context.read<IHomeScreenViewModel>().getCategories();
                           Get.offAllNamed(MyRouter.base);
                         }
