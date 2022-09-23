@@ -24,7 +24,7 @@ class _BaseScreenState extends State<BaseScreen> {
     SSBottomNavItem(text: 'Home', iconData: Icons.home, iconSize: 22),
     SSBottomNavItem(
         text: 'Add', iconData: Icons.add, iconSize: 22, isIconOnly: true),
-    SSBottomNavItem(text: 'Profile', iconData: Icons.person, iconSize: 22)
+    SSBottomNavItem(text: 'Profile', iconData: Icons.person, iconSize: 22),
   ];
 
   @override

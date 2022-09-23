@@ -25,7 +25,7 @@ class TransactionCard extends StatelessWidget {
                 width: 7,
                 height: 30,
                 decoration: BoxDecoration(
-                  color: transaction.type == 0 ? Colors.green : Colors.red,
+                  color: transaction.type == 1 ? Colors.green : Colors.red,
                   borderRadius: BorderRadius.circular(7),
                 ),
               ),
@@ -35,7 +35,7 @@ class TransactionCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  (transaction.type == 0 ? 'Income' : 'Expense') +
+                  (transaction.type == 1 ? 'Income' : 'Expense') +
                       '(${transaction.currencySymbol})',
                   style: TextStyleUtils.regular(28),
                 ),

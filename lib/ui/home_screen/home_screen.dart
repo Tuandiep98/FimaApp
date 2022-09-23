@@ -4,7 +4,6 @@ import 'package:fima/core/view_models/interfaces/itransaction_viewmodel.dart';
 import 'package:fima/ui/common_widgets/title_txt.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../global/mock_data.dart';
 import 'widgets/categories_tracker_widget.dart';
 import 'widgets/today_activity_widget.dart';
 
@@ -19,9 +18,6 @@ class _HomeScreenState extends State<HomeScreen> {
   ITransactionViewModel _viewModel;
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await MockData.initMockData();
-    });
     _viewModel = context.read<ITransactionViewModel>();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _viewModel.initTransactions();
@@ -93,19 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Consumer<ITransactionViewModel>(
-                      builder: (_, _viewModel, ___) {
-                    return _viewModel.transactionForDisplays != null &&
-                            _viewModel.transactionForDisplays?.length > 0
-                        ? TodayActivityWidget(
-                            transactions: _viewModel.transactionForDisplays
-                                .where((x) =>
-                                    x.createdAt.day == DateTime.now().day &&
-                                    x.createdAt.month == DateTime.now().month &&
-                                    x.createdAt.year == DateTime.now().year)
-                                .toList())
-                        : TodayActivityWidgetShimmer();
-                  }),
+                  TodayActivityWidget(),
                   Spacer(),
                   CategoriesTrackerWidget(),
                 ],

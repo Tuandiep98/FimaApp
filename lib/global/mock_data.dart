@@ -2,14 +2,10 @@ import 'package:fima/core/hive_database/entities/category_entity/category_entity
 import 'package:fima/core/hive_database/entities/payment_method_entity/payment_method_entity.dart';
 import 'package:fima/core/services/interfaces/icategory_service.dart';
 import 'package:fima/core/services/interfaces/ipayment_method_service.dart';
-import 'package:fima/core/utils/list_extension.dart';
 import 'package:fima/global/global_data.dart';
 import 'package:uuid/uuid.dart';
-
 import '../core/hive_database/entities/currency_entity/currency_entity.dart';
-import '../core/hive_database/entities/transaction_entity/transaction_entity.dart';
 import '../core/services/interfaces/icurrency_service.dart';
-import '../core/services/interfaces/itransaction_service.dart';
 import 'locator.dart';
 
 class MockData {
@@ -29,12 +25,15 @@ class MockData {
         top: 0,
       ),
     ];
-    locator<GlobalData>().currentCurrency = currencies.first;
+
     var currencyService = locator<ICurrencyService>();
-    var currenciesInDb =
-        currencyService.getCurrencies().firstOrDefault((x) => x.code == 'VND');
-    if (currenciesInDb == null)
+    if (currencyService.getCurrencies().length <= 0) {
+      locator<GlobalData>().currentCurrency = currencies.first;
       await locator<ICurrencyService>().insertAll(currencies);
+    } else {
+      locator<GlobalData>().currentCurrency =
+          currencyService.getCurrencies().first;
+    }
 
     var categories = [
       CategoryEntity(
@@ -74,10 +73,14 @@ class MockData {
       ),
     ];
 
-    locator<GlobalData>().categorySelected = categories.first.toUIModel();
     var categoryService = locator<ICategoryService>();
-    await categoryService.clearAll();
-    await categoryService.insertAll(categories);
+    if (categoryService.getCategories().length <= 0) {
+      locator<GlobalData>().categorySelected = categories.first.toUIModel();
+      await categoryService.insertAll(categories);
+    } else {
+      locator<GlobalData>().categorySelected =
+          categoryService.getCategories().first.toUIModel();
+    }
 
     // List<TransactionEntity> transactionEntities = [
     //   TransactionEntity(
@@ -238,7 +241,8 @@ class MockData {
     //   ),
     // ];
     // var transactionService = locator<ITransactionService>();
-    // await transactionService.clearAll();
+    // if (transactionService.getTransactions().length > 0)
+    //   await transactionService.clearAll();
     // for (var transactionEntity in transactionEntities) {
     //   await transactionService.insert(transactionEntity);
     // }
@@ -261,10 +265,14 @@ class MockData {
       ),
     ];
 
-    locator<GlobalData>().paymentMethodSelected =
-        paymentMethods.first.toUIModel();
     var paymentMethodService = locator<IPaymentMethodService>();
-    await paymentMethodService.clearAll();
-    await paymentMethodService.insertAll(paymentMethods);
+    if (paymentMethodService.getPaymentMethods().length <= 0) {
+      locator<GlobalData>().paymentMethodSelected =
+          paymentMethods.first.toUIModel();
+      await paymentMethodService.insertAll(paymentMethods);
+    } else {
+      locator<GlobalData>().paymentMethodSelected =
+          paymentMethodService.getPaymentMethods().first.toUIModel();
+    }
   }
 }

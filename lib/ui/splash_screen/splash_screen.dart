@@ -1,5 +1,6 @@
 import 'package:fima/core/utils/text_style_utils.dart';
 import 'package:fima/global/app_text.dart';
+import 'package:fima/global/mock_data.dart';
 import 'package:fima/global/router.dart';
 import 'package:fima/ui/common_widgets/custom_button.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,9 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await MockData.initMockData();
+    });
     super.initState();
   }
 

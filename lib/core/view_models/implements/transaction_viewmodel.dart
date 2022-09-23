@@ -9,12 +9,12 @@ import 'package:fima/core/utils/enum.dart';
 import 'package:fima/core/utils/logger_utils.dart';
 import 'package:fima/global/global_data.dart';
 import 'package:fima/global/locator.dart';
-import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 import '../interfaces/itransaction_viewmodel.dart';
+import 'base_viewmodel.dart';
 
-class TransactionViewModel extends ChangeNotifier
+class TransactionViewModel extends BaseViewModel
     implements ITransactionViewModel {
   var _categoryService = locator<ICategoryService>();
   var _transactionService = locator<ITransactionService>();
@@ -28,6 +28,14 @@ class TransactionViewModel extends ChangeNotifier
   String _transactionModeLabel = 'Expense';
   @override
   String get transactionModeLabel => _transactionModeLabel;
+
+  TransactionUIModel _expense;
+  @override
+  TransactionUIModel get expense => _expense;
+
+  TransactionUIModel _income;
+  @override
+  TransactionUIModel get income => _income;
 
   var _colors = [
     0xffDEEDCF,
@@ -46,13 +54,34 @@ class TransactionViewModel extends ChangeNotifier
   @override
   void initTransactions() {
     _transactionForDisplays.clear();
+    changeState(DataState.FetchingData);
     var transactions = locator<ITransactionService>().getTransactions();
     if (transactions.length > 0) {
       _transactionForDisplays = transactions.map((e) => e.toUIModel()).toList();
     }
-    transactionForDisplays = _transactionForDisplays;
+    transactionForDisplays = _transactionForDisplays
+        .where((x) =>
+            x.createdAt.day == DateTime.now().day &&
+            x.createdAt.month == DateTime.now().month &&
+            x.createdAt.year == DateTime.now().year)
+        .toList();
     transactionForDisplays.sort((a, b) => b.createdAt.compareTo(a.createdAt));
-    notifyListeners();
+
+    if (transactionForDisplays.length > 0) {
+      var expenses = transactionForDisplays.where((x) => x.type == 1).toList();
+      if (expenses.length > 0) {
+        _expense = expenses
+            .reduce((curr, next) => (curr.amount < next.amount) ? curr : next);
+      }
+      var incomes = transactionForDisplays.where((x) => x.type == 0).toList();
+      if (incomes.length > 0) {
+        _income = incomes
+            .reduce((curr, next) => (curr.amount < next.amount) ? curr : next);
+      }
+      changeState(DataState.DataFetchedSuccessfully);
+    } else {
+      changeState(DataState.NoDataToDisplay);
+    }
   }
 
   @override
@@ -98,6 +127,7 @@ class TransactionViewModel extends ChangeNotifier
   Future<void> createTransaction(double amount, String note) async {
     try {
       var _category = _globalData.categorySelected;
+      var _currency = _globalData.currentCurrency;
       TransactionEntity newTransaction = TransactionEntity(
         id: Uuid().v4(),
         categoryId: _category.id,
@@ -105,8 +135,8 @@ class TransactionViewModel extends ChangeNotifier
         updatedAt: DateTime.now(),
         amount: amount.toInt() * 1000,
         type: _globalData.getTransactionType(),
-        currencyId: _globalData.currentCurrency.id,
-        currencySymbol: _globalData.currentCurrency.symbol,
+        currencyId: _currency.id,
+        currencySymbol: _currency.symbol,
         note: note,
         bank: '',
       );

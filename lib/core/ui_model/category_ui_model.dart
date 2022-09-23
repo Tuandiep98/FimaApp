@@ -4,9 +4,9 @@ class CategoryUIModel {
   String code;
   String image;
   String imageBase64;
-  int totalAmount;
-  int targetOfMonth;
-  int totalAllMonth;
+  double totalAmount;
+  double targetOfMonth;
+  double totalAllMonth;
   double percent;
 
   CategoryUIModel({

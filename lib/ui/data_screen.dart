@@ -31,7 +31,7 @@ class _DataBuilderState extends State<DataBuilder> {
         return widget.arguments.fetchingDataWidget;
         break;
       case DataState.NoDataToDisplay:
-        return widget.arguments.noDataToDisplayWidget;
+        return widget.arguments.dataFetchedSuccessfullyWidget;
         break;
       case DataState.DataFetchedSuccessfully:
         return widget.arguments.dataFetchedSuccessfullyWidget;

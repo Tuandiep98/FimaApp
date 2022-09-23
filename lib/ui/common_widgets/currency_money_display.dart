@@ -6,7 +6,7 @@ final oCcy = new NumberFormat("#,##0.00", "en_US");
 final vCcy = new NumberFormat("#,##0", "vi_VN");
 
 class MoneyDisplay extends StatelessWidget {
-  final int amount;
+  final num amount;
   final String currencySymbol;
   final Color color;
   const MoneyDisplay(

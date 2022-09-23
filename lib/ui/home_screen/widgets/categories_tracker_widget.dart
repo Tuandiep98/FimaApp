@@ -1,4 +1,5 @@
 import 'package:fima/core/view_models/interfaces/ihome_screen_viewmodel.dart';
+import 'package:fima/core/view_models/interfaces/itransaction_viewmodel.dart';
 import 'package:fima/ui/common_widgets/no_data_to_display.dart';
 import 'package:fima/ui/data_screen.dart';
 import 'package:fima/ui/home_screen/widgets/category_card.dart';
@@ -29,8 +30,8 @@ class _CategoriesTrackerWidgetState extends State<CategoriesTrackerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<IHomeScreenViewModel>(
-      builder: (_, __, ___) {
+    return Consumer2<IHomeScreenViewModel, ITransactionViewModel>(
+      builder: (_, __, ___, ____) {
         return DataBuilder(
           arguments: DataBuilderArguments(
             dataFetchedSuccessfullyWidget: Container(
@@ -43,7 +44,7 @@ class _CategoriesTrackerWidgetState extends State<CategoriesTrackerWidget> {
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(15),
+                    padding: const EdgeInsets.all(10),
                     child: Row(
                       children: [
                         Text(
@@ -52,17 +53,27 @@ class _CategoriesTrackerWidgetState extends State<CategoriesTrackerWidget> {
                               .copyWith(color: Colors.white),
                         ),
                         Spacer(),
-                        Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          size: 16,
-                          color: Colors.white,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Month',
+                              style: TextStyleUtils.regular(22)
+                                  .copyWith(color: Colors.white),
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              size: 16,
+                              color: Colors.white,
+                            ),
+                          ],
                         ),
                       ],
                     ),
                   ),
                   const SizedBox(height: 10),
                   Container(
-                    height: 195,
+                    height: 230,
                     child: SingleChildScrollView(
                       child:
                           Consumer<IHomeScreenViewModel>(builder: (_, __, ___) {
@@ -89,7 +100,7 @@ class _CategoriesTrackerWidgetState extends State<CategoriesTrackerWidget> {
               ),
               child: NoDataToDisplay(),
             ),
-            state: _viewModel.state,
+            state: _viewModel.getScreenState(),
           ),
         );
       },

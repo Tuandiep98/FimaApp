@@ -1,6 +1,4 @@
-import 'package:fima/core/services/interfaces/itransaction_service.dart';
 import 'package:fima/core/ui_model/category_ui_model.dart';
-import 'package:fima/global/locator.dart';
 import 'package:hive/hive.dart';
 import '../base_entity_with_image.dart';
 
@@ -26,24 +24,6 @@ class CategoryEntity extends BaseEntityWithImage {
         );
 
   CategoryUIModel toUIModel() {
-    var transactions = locator<ITransactionService>().getTransactions();
-    var totalAmount = 0;
-    var totalAllMonth = 0;
-    if (transactions.length > 0) {
-      var transactionOfCurrentMonth = transactions
-          .where((x) =>
-              x.categoryId == this.id &&
-              x.createdAt.month == DateTime.now().month &&
-              x.createdAt.year == DateTime.now().year)
-          .toList();
-      for (var transaction in transactionOfCurrentMonth) {
-        totalAllMonth += transaction.amount;
-        if (transaction.type == 0)
-          totalAmount += transaction.amount;
-        else
-          totalAmount -= transaction.amount;
-      }
-    }
     return CategoryUIModel(
       id: this.id,
       code: this.code,
@@ -51,11 +31,9 @@ class CategoryEntity extends BaseEntityWithImage {
       imageBase64: this.imageBase64,
       name: this.name,
       targetOfMonth: 0,
-      totalAmount: totalAmount,
-      totalAllMonth: totalAllMonth,
-      percent: (totalAllMonth == 0 || totalAmount == 0)
-          ? 0
-          : totalAmount.abs() / totalAllMonth.abs() * 100,
+      totalAmount: 0,
+      totalAllMonth: 0,
+      percent: 0,
     );
   }
 }
