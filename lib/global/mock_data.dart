@@ -2,6 +2,7 @@ import 'package:fima/core/hive_database/entities/category_entity/category_entity
 import 'package:fima/core/hive_database/entities/payment_method_entity/payment_method_entity.dart';
 import 'package:fima/core/services/interfaces/icategory_service.dart';
 import 'package:fima/core/services/interfaces/ipayment_method_service.dart';
+import 'package:fima/core/services/interfaces/itransaction_service.dart';
 import 'package:fima/global/global_data.dart';
 import 'package:uuid/uuid.dart';
 import '../core/hive_database/entities/currency_entity/currency_entity.dart';
@@ -37,35 +38,30 @@ class MockData {
 
     var categories = [
       CategoryEntity(
-        code: '001',
         id: Uuid().v4(),
         name: 'Food & Drinks',
         image: '',
         imageBase64: '',
       ),
       CategoryEntity(
-        code: '002',
         id: Uuid().v4(),
         name: 'Shopping',
         image: '',
         imageBase64: '',
       ),
       CategoryEntity(
-        code: '003',
         id: Uuid().v4(),
         name: 'Healthcare',
         image: '',
         imageBase64: '',
       ),
       CategoryEntity(
-        code: '004',
         id: Uuid().v4(),
         name: 'Travel',
         image: '',
         imageBase64: '',
       ),
       CategoryEntity(
-        code: '005',
         id: Uuid().v4(),
         name: 'Others',
         image: '',

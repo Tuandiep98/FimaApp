@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 abstract class IBaseViewModel extends ChangeNotifier {
   List<DataStateObject> get screenState;
-  void changeState(DataState newState);
+  void changeState(DataState newState, {String routeIn = ''});
   DataState getScreenState();
 }
 

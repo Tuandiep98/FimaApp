@@ -9,13 +9,16 @@ class CategoryEntity extends BaseEntityWithImage {
   @HiveField(3)
   String name;
   @HiveField(4)
-  String code;
+  int codePoint;
+  @HiveField(5)
+  String fontFamilly;
 
   CategoryEntity({
     String id,
     String image,
     String imageBase64,
-    this.code,
+    this.codePoint,
+    this.fontFamilly,
     this.name,
   }) : super(
           id: id,
@@ -26,7 +29,8 @@ class CategoryEntity extends BaseEntityWithImage {
   CategoryUIModel toUIModel() {
     return CategoryUIModel(
       id: this.id,
-      code: this.code,
+      codePoint: this.codePoint,
+      fontFamilly: this.fontFamilly,
       image: this.image,
       imageBase64: this.imageBase64,
       name: this.name,

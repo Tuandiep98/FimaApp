@@ -8,8 +8,8 @@ class BaseViewModel with ChangeNotifier implements IBaseViewModel {
   List<DataStateObject> _screenState = [];
   List<DataStateObject> get screenState => _screenState;
 
-  void changeState(DataState newState) {
-    var routeName = Get.currentRoute;
+  void changeState(DataState newState, {String routeIn = ''}) {
+    var routeName = routeIn == '' ? Get.currentRoute : routeIn;
     if (_screenState == null) {
       _screenState = [];
     }

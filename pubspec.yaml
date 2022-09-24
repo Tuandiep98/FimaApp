@@ -54,6 +54,7 @@ dependencies:
   flutter_masked_text: ^0.8.0
   shimmer: ^2.0.0
   sleek_circular_slider: ^2.0.1
+  flutter_iconpicker: ^2.2.3
 
 dev_dependencies:
   flutter_test:

@@ -20,7 +20,8 @@ class CategoryEntityAdapter extends TypeAdapter<CategoryEntity> {
       id: fields[0] as String,
       image: fields[1] as String,
       imageBase64: fields[2] as String,
-      code: fields[4] as String,
+      codePoint: fields[4] as int,
+      fontFamilly: fields[5] as String,
       name: fields[3] as String,
     );
   }
@@ -28,11 +29,13 @@ class CategoryEntityAdapter extends TypeAdapter<CategoryEntity> {
   @override
   void write(BinaryWriter writer, CategoryEntity obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(3)
       ..write(obj.name)
       ..writeByte(4)
-      ..write(obj.code)
+      ..write(obj.codePoint)
+      ..writeByte(5)
+      ..write(obj.fontFamilly)
       ..writeByte(1)
       ..write(obj.image)
       ..writeByte(2)

@@ -1,8 +1,6 @@
 import 'package:fima/core/hive_database/entities/transaction_entity/transaction_entity.dart';
-import 'package:fima/core/services/interfaces/icategory_service.dart';
 import 'package:fima/core/services/interfaces/ipayment_method_service.dart';
 import 'package:fima/core/services/interfaces/itransaction_service.dart';
-import 'package:fima/core/ui_model/category_ui_model.dart';
 import 'package:fima/core/ui_model/payment_method_ui_model.dart';
 import 'package:fima/core/ui_model/transaction_ui_model.dart';
 import 'package:fima/core/utils/enum.dart';
@@ -16,7 +14,6 @@ import 'base_viewmodel.dart';
 
 class TransactionViewModel extends BaseViewModel
     implements ITransactionViewModel {
-  var _categoryService = locator<ICategoryService>();
   var _transactionService = locator<ITransactionService>();
   var _paymentMethodService = locator<IPaymentMethodService>();
   var _globalData = locator<GlobalData>();
@@ -76,7 +73,7 @@ class TransactionViewModel extends BaseViewModel
       var incomes = transactionForDisplays.where((x) => x.type == 0).toList();
       if (incomes.length > 0) {
         _income = incomes
-            .reduce((curr, next) => (curr.amount < next.amount) ? curr : next);
+            .reduce((curr, next) => (curr.amount > next.amount) ? curr : next);
       }
       changeState(DataState.DataFetchedSuccessfully);
     } else {
@@ -116,11 +113,6 @@ class TransactionViewModel extends BaseViewModel
     locator<GlobalData>().transactionType = type;
     _transactionModeLabel = locator<GlobalData>().getTransactionTypeLabel();
     notifyListeners();
-  }
-
-  @override
-  List<CategoryUIModel> getCategories() {
-    return _categoryService.getCategories().map((e) => e.toUIModel()).toList();
   }
 
   @override

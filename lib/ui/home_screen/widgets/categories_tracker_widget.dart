@@ -31,7 +31,7 @@ class _CategoriesTrackerWidgetState extends State<CategoriesTrackerWidget> {
   @override
   Widget build(BuildContext context) {
     return Consumer2<IHomeScreenViewModel, ITransactionViewModel>(
-      builder: (_, __, ___, ____) {
+      builder: (_, __, _transViewModel, ____) {
         return DataBuilder(
           arguments: DataBuilderArguments(
             dataFetchedSuccessfullyWidget: Container(

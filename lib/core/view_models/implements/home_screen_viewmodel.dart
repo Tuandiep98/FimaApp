@@ -1,10 +1,13 @@
+import 'package:fima/core/hive_database/entities/category_entity/category_entity.dart';
 import 'package:fima/core/services/interfaces/icategory_service.dart';
 import 'package:fima/core/services/interfaces/itransaction_service.dart';
 import 'package:fima/core/ui_model/category_ui_model.dart';
 import 'package:fima/core/utils/enum.dart';
 import 'package:fima/core/view_models/implements/base_viewmodel.dart';
 import 'package:fima/core/view_models/interfaces/ihome_screen_viewmodel.dart';
+import 'package:fima/global/global_data.dart';
 import 'package:fima/global/locator.dart';
+import 'package:uuid/uuid.dart';
 
 class HomeScreenViewModel extends BaseViewModel
     implements IHomeScreenViewModel {
@@ -50,5 +53,24 @@ class HomeScreenViewModel extends BaseViewModel
     } else {
       changeState(DataState.NoDataToDisplay);
     }
+  }
+
+  @override
+  Future<void> createCategory(
+      String categoryName, int codePoint, String fontFamily) async {
+    changeState(DataState.FetchingData);
+    CategoryEntity newCategory = CategoryEntity(
+      id: Uuid().v4(),
+      codePoint: codePoint,
+      name: categoryName,
+      fontFamilly: fontFamily,
+    );
+    await categoryService.insertAll([newCategory]);
+    var categoryUIModel = newCategory.toUIModel();
+    locator<GlobalData>().categorySelected = categoryUIModel;
+    _categoriesForDisplay.add(categoryUIModel);
+    categoriesForDisplay = _categoriesForDisplay;
+    categoriesForDisplay.sort((a, b) => b.totalAmount.compareTo(a.totalAmount));
+    changeState(DataState.DataFetchedSuccessfully);
   }
 }

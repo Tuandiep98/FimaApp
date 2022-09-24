@@ -258,6 +258,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_iconpicker:
+    dependency: "direct main"
+    description:
+      name: flutter_iconpicker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.2.3"
   flutter_masked_text:
     dependency: "direct main"
     description:
@@ -408,6 +415,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.5.2"
+  line_awesome_flutter:
+    dependency: transitive
+    description:
+      name: line_awesome_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   logger:
     dependency: "direct main"
     description:
@@ -450,6 +464,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  outline_material_icons:
+    dependency: transitive
+    description:
+      name: outline_material_icons
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.1"
   package_config:
     dependency: transitive
     description:
