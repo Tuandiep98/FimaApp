@@ -5,27 +5,29 @@ part 'currency_entity.g.dart';
 
 @HiveType(typeId: 2)
 class CurrencyEntity extends BaseEntityWithImage {
-  @HiveField(3)
-  String name;
-  @HiveField(4)
-  String code;
   @HiveField(5)
-  int top;
+  String name;
   @HiveField(6)
-  bool availableOnline;
+  String code;
   @HiveField(7)
-  bool displayOnDevice;
+  int top;
   @HiveField(8)
-  bool acceptCredit;
+  bool availableOnline;
   @HiveField(9)
-  bool baseCurrency;
+  bool displayOnDevice;
   @HiveField(10)
+  bool acceptCredit;
+  @HiveField(11)
+  bool baseCurrency;
+  @HiveField(12)
   String symbol;
 
   CurrencyEntity({
     String id,
     String image,
     String imageBase64,
+    DateTime createdAt,
+    DateTime updatedAt,
     this.acceptCredit,
     this.baseCurrency,
     this.availableOnline,
@@ -38,5 +40,7 @@ class CurrencyEntity extends BaseEntityWithImage {
           id: id,
           image: image,
           imageBase64: imageBase64,
+          createdAt: createdAt,
+          updatedAt: updatedAt,
         );
 }

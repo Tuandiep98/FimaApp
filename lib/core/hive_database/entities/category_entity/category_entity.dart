@@ -6,17 +6,19 @@ part 'category_entity.g.dart';
 
 @HiveType(typeId: 3)
 class CategoryEntity extends BaseEntityWithImage {
-  @HiveField(3)
-  String name;
-  @HiveField(4)
-  int codePoint;
   @HiveField(5)
+  String name;
+  @HiveField(6)
+  int codePoint;
+  @HiveField(7)
   String fontFamilly;
 
   CategoryEntity({
     String id,
     String image,
     String imageBase64,
+    DateTime createdAt,
+    DateTime updatedAt,
     this.codePoint,
     this.fontFamilly,
     this.name,
@@ -24,6 +26,8 @@ class CategoryEntity extends BaseEntityWithImage {
           id: id,
           image: image,
           imageBase64: imageBase64,
+          createdAt: createdAt,
+          updatedAt: updatedAt,
         );
 
   CategoryUIModel toUIModel() {

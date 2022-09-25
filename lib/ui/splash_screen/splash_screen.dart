@@ -1,10 +1,14 @@
 import 'package:fima/core/utils/text_style_utils.dart';
+import 'package:fima/core/view_models/interfaces/isplash_screen_view_model.dart';
 import 'package:fima/global/app_text.dart';
+import 'package:fima/global/global_data.dart';
+import 'package:fima/global/locator.dart';
 import 'package:fima/global/mock_data.dart';
 import 'package:fima/global/router.dart';
 import 'package:fima/ui/common_widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key key}) : super(key: key);
@@ -14,10 +18,18 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  ISplashScreenViewModel _viewModel;
+
   @override
   void initState() {
+    _viewModel = context.read<ISplashScreenViewModel>();
+
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await MockData.initMockData();
+      _viewModel.continueAsGuest(asBackgroundCheck: true);
+      if (locator<GlobalData>().currentUser != null) {
+        Get.toNamed(MyRouter.base);
+      }
     });
     super.initState();
   }
@@ -53,6 +65,7 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
               CustomButton(
                 onPressed: () {
+                  _viewModel.continueAsGuest();
                   Get.offAllNamed(MyRouter.base);
                 },
                 btnColor: const Color(0xff55efc4),

@@ -1,47 +1,50 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'payment_method_entity.dart';
+part of 'account_entity.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class PaymentMethodEntityAdapter extends TypeAdapter<PaymentMethodEntity> {
+class Account2EntityAdapter extends TypeAdapter<Account2Entity> {
   @override
-  final int typeId = 4;
+  final int typeId = 5;
 
   @override
-  PaymentMethodEntity read(BinaryReader reader) {
+  Account2Entity read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return PaymentMethodEntity(
+    return Account2Entity(
       id: fields[0] as String,
-      image: fields[3] as String,
-      imageBase64: fields[4] as String,
       createdAt: fields[1] as DateTime,
       updatedAt: fields[2] as DateTime,
-      codePoint: fields[6] as int,
-      fontFamily: fields[7] as String,
-      name: fields[5] as String,
+      username: fields[3] as String,
+      password: fields[4] as String,
+      isGuest: fields[5] as bool,
+      currencyId: fields[6] as String,
+      currencySymbol: fields[7] as String,
+      bio: fields[8] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, PaymentMethodEntity obj) {
+  void write(BinaryWriter writer, Account2Entity obj) {
     writer
-      ..writeByte(8)
-      ..writeByte(5)
-      ..write(obj.name)
-      ..writeByte(6)
-      ..write(obj.codePoint)
-      ..writeByte(7)
-      ..write(obj.fontFamily)
+      ..writeByte(9)
       ..writeByte(3)
-      ..write(obj.image)
+      ..write(obj.username)
       ..writeByte(4)
-      ..write(obj.imageBase64)
+      ..write(obj.password)
+      ..writeByte(5)
+      ..write(obj.isGuest)
+      ..writeByte(6)
+      ..write(obj.currencyId)
+      ..writeByte(7)
+      ..write(obj.currencySymbol)
+      ..writeByte(8)
+      ..write(obj.bio)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -56,7 +59,7 @@ class PaymentMethodEntityAdapter extends TypeAdapter<PaymentMethodEntity> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is PaymentMethodEntityAdapter &&
+      other is Account2EntityAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

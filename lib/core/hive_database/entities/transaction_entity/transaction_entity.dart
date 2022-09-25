@@ -8,12 +8,8 @@ part 'transaction_entity.g.dart';
 
 @HiveType(typeId: 1)
 class TransactionEntity extends BaseEntity {
-  @HiveField(1)
-  String categoryId;
-  @HiveField(2)
-  DateTime createdAt;
   @HiveField(3)
-  DateTime updatedAt;
+  String categoryId;
   @HiveField(4)
   int amount;
   @HiveField(5)
@@ -29,16 +25,20 @@ class TransactionEntity extends BaseEntity {
 
   TransactionEntity({
     String id,
+    DateTime createdAt,
+    DateTime updatedAt,
     this.categoryId,
-    this.createdAt,
-    this.updatedAt,
     this.amount,
     this.type,
     this.currencyId,
     this.currencySymbol,
     this.note,
     this.bank,
-  }) : super(id: id);
+  }) : super(
+          id: id,
+          createdAt: createdAt,
+          updatedAt: updatedAt,
+        );
 
   TransactionUIModel toUIModel() {
     var categoryName = locator<ICategoryService>()

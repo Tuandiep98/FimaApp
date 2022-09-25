@@ -1,3 +1,4 @@
+import 'package:fima/core/hive_database/daos/account_dao.dart';
 import 'package:fima/core/hive_database/daos/category_dao.dart';
 import 'package:fima/core/hive_database/daos/currency_dao.dart';
 import 'package:fima/core/hive_database/daos/payment_method_dao.dart';
@@ -9,4 +10,5 @@ void registerDaoSingletons(GetIt locator) {
   locator.registerLazySingleton(() => CurrencyDao());
   locator.registerLazySingleton(() => CategoryDao());
   locator.registerLazySingleton(() => PaymentMethodDao());
+  locator.registerLazySingleton(() => AccountDao());
 }
