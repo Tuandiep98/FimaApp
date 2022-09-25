@@ -71,42 +71,40 @@ class _TodayActivityWidgetState extends State<TodayActivityWidget> {
                       borderRadius: BorderRadius.circular(3),
                       color: Colors.white.withOpacity(0.15),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SingleChildScrollView(
-                          child: Container(
-                            height: 20,
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.arrow_drop_up_rounded,
-                                  size: 20,
-                                  color: Colors.green,
-                                ),
-                                MoneyDisplay(
-                                  amount: _viewModel.expense?.amount ?? 0,
-                                  currencySymbol:
-                                      _viewModel.expense?.currencySymbol ?? 'đ',
-                                  color: Colors.white60,
-                                ),
-                                Icon(
-                                  Icons.arrow_drop_down_rounded,
-                                  size: 20,
-                                  color: Colors.red,
-                                ),
-                                MoneyDisplay(
-                                  amount: _viewModel.income?.amount ?? 0,
-                                  currencySymbol:
-                                      _viewModel.income?.currencySymbol ?? 'đ',
-                                  color: Colors.white60,
-                                ),
-                              ],
+                    child: Container(
+                      height: 20,
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.arrow_drop_up_rounded,
+                            size: 20,
+                            color: Colors.green,
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width / 6.5,
+                            child: MoneyDisplay(
+                              amount: _viewModel.expense?.amount ?? 0,
+                              currencySymbol:
+                                  _viewModel.expense?.currencySymbol ?? 'đ',
+                              color: Colors.white60,
                             ),
                           ),
-                        ),
-                      ],
+                          Icon(
+                            Icons.arrow_drop_down_rounded,
+                            size: 20,
+                            color: Colors.red,
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width / 6.5,
+                            child: MoneyDisplay(
+                              amount: _viewModel.income?.amount ?? 0,
+                              currencySymbol:
+                                  _viewModel.income?.currencySymbol ?? 'đ',
+                              color: Colors.white60,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

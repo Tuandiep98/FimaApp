@@ -1,4 +1,3 @@
-import 'package:fima/core/ui_model/payment_method_ui_model.dart';
 import 'package:fima/core/utils/enum.dart';
 
 import '../../ui_model/transaction_ui_model.dart';
@@ -13,5 +12,4 @@ abstract class ITransactionViewModel extends IBaseViewModel {
   void initTransactions();
   int getColorActivitiesOfTheDay(DateTime dateTime);
   Future<void> createTransaction(double amount, String note);
-  List<PaymentMethodUIModel> getPaymentMethods();
 }

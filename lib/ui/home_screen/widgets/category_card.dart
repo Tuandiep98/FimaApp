@@ -33,10 +33,14 @@ class CategoryCard extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               Spacer(),
-              MoneyDisplay(
-                amount: category?.totalAmount ?? 0,
-                currencySymbol: currencySymbol ?? '',
-                color: Colors.white,
+              Container(
+                width: 65,
+                alignment: Alignment.centerRight,
+                child: MoneyDisplay(
+                  amount: category?.totalAmount ?? 0,
+                  currencySymbol: currencySymbol ?? '',
+                  color: Colors.white,
+                ),
               ),
             ],
           ),

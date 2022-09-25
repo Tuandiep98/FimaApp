@@ -1,7 +1,4 @@
 import 'dart:io';
-
-import 'package:fima/core/ui_model/category_ui_model.dart';
-import 'package:fima/core/ui_model/payment_method_ui_model.dart';
 import 'package:fima/core/utils/dialog_utils.dart';
 import 'package:fima/core/utils/text_style_utils.dart';
 import 'package:fima/core/view_models/interfaces/ihome_screen_viewmodel.dart';
@@ -28,11 +25,14 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
   MoneyMaskedTextController amountController;
   TextEditingController noteController;
   TextEditingController newCategoryController;
+  TextEditingController newPaymentMethodController;
+
   bool isShowNote = false;
   FocusNode noteFocus;
-  ITransactionViewModel _viewModel;
 
-  List<PaymentMethodUIModel> paymentMethods = [];
+  ITransactionViewModel _viewModel;
+  IHomeScreenViewModel _homeViewModel;
+
   String selectedValue;
 
   var slider;
@@ -41,8 +41,11 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
   @override
   void initState() {
     _viewModel = context.read<ITransactionViewModel>();
+    _homeViewModel = context.read<IHomeScreenViewModel>();
 
     newCategoryController = TextEditingController();
+    newPaymentMethodController = TextEditingController();
+
     amountController = MoneyMaskedTextController(
         decimalSeparator: ',',
         thousandSeparator: ',',
@@ -53,7 +56,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
     noteFocus = FocusNode();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      paymentMethods = _viewModel.getPaymentMethods();
+      _homeViewModel.initPaymentMethods();
     });
 
     slider = SleekCircularSlider(
@@ -118,6 +121,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
     amountController.dispose();
     noteController.dispose();
     newCategoryController.dispose();
+    newPaymentMethodController.dispose();
     super.dispose();
   }
 
@@ -243,6 +247,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                             ),
                             const SizedBox(width: 5),
                             Container(
+                              width: 60,
                               child: Text(
                                 locator<GlobalData>()
                                         .paymentMethodSelected
@@ -250,6 +255,8 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                                     '[payment]',
                                 style: TextStyleUtils.light(30)
                                     .copyWith(color: Colors.grey[500]),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
                           ],
@@ -324,45 +331,85 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
     await DialogUtils.showYesNoBottomDialog(
       context,
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: paymentMethods
-              .map(
-                (e) => GestureDetector(
-                  onTap: () {
-                    locator<GlobalData>().paymentMethodSelected = e;
-                    Get.back();
-                    setState(() {});
-                  },
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        'assets/images/currency_img.PNG',
-                        width: 40,
-                        height: 40,
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Consumer<IHomeScreenViewModel>(builder: (_, _viewModel, ___) {
+          return Wrap(
+            alignment: WrapAlignment.center,
+            children: _viewModel.paymentMethodsForDisplay
+                .map(
+                  (e) => GestureDetector(
+                    onTap: () {
+                      locator<GlobalData>().paymentMethodSelected = e;
+                      Get.back();
+                      setState(() {});
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(3),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        decoration: BoxDecoration(
+                          color: e.name ==
+                                  locator<GlobalData>()
+                                      .paymentMethodSelected
+                                      ?.name
+                              ? Colors.blue[100]
+                              : Colors.grey[100],
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Image.asset(
+                              'assets/images/currency_img.PNG',
+                              width: 40,
+                              height: 40,
+                            ),
+                            const SizedBox(width: 10),
+                            Text(
+                              e.name ?? '[payment-method]',
+                              style: TextStyleUtils.light(32).copyWith(
+                                  color: e.name ==
+                                          locator<GlobalData>()
+                                              .paymentMethodSelected
+                                              ?.name
+                                      ? Colors.white
+                                      : Colors.grey[500]),
+                            ),
+                            const SizedBox(width: 10),
+                          ],
+                        ),
                       ),
-                      const SizedBox(width: 10),
-                      Text(
-                        e.name ?? '[payment-method]',
-                        style: TextStyleUtils.light(32)
-                            .copyWith(color: Colors.grey[500]),
-                      ),
-                      Spacer(),
-                      e.name ==
-                              locator<GlobalData>().paymentMethodSelected?.name
-                          ? Icon(
-                              Icons.done_rounded,
-                              size: 30,
-                              color: Colors.green,
-                            )
-                          : const SizedBox.shrink(),
-                    ],
+                    ),
                   ),
-                ),
-              )
-              .toList(),
-        ),
+                )
+                .toList()
+                  ..add(
+                    GestureDetector(
+                      onTap: () async {
+                        Get.back();
+                        setState(() {});
+                        await _showAddPaymentMethodDialog();
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(3),
+                        child: Container(
+                          width: 60,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[100],
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Icon(
+                            Icons.add,
+                            size: 30,
+                            color: Colors.grey[500],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+          );
+        }),
       ),
     );
   }
@@ -552,8 +599,132 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                       context.read<IHomeScreenViewModel>().getCategories();
                     },
                     child: Container(
-                      width: 60,
-                      height: 60,
+                      width: 68,
+                      height: 68,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.grey[100],
+                      ),
+                      child: Icon(
+                        Icons.done_rounded,
+                        size: 30,
+                        color: Colors.green,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Future<void> _showAddPaymentMethodDialog() async {
+    Icon _icon = Icon(
+      Icons.category_rounded,
+      size: 30,
+      color: Colors.grey[200],
+    );
+
+    await DialogUtils.showYesNoBottomDialog(
+      context,
+      body: StatefulBuilder(
+        builder: (context, setState) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Container(
+              height: 400,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: Colors.grey[100],
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        GestureDetector(
+                          onTap: () async {
+                            IconData icon =
+                                await FlutterIconPicker.showIconPicker(
+                              context,
+                              iconPackMode: Platform.isIOS
+                                  ? IconPack.cupertino
+                                  : IconPack.material,
+                              title: const SizedBox.shrink(),
+                              closeChild: Text(
+                                'close',
+                                style: TextStyleUtils.light(40).copyWith(
+                                  color: Colors.grey[300],
+                                ),
+                              ),
+                            );
+
+                            if (icon != null) {
+                              setState(() {
+                                _icon = Icon(
+                                  icon,
+                                  size: 30,
+                                  color: Colors.black,
+                                );
+                              });
+                            }
+                          },
+                          child: Container(
+                            width: 45,
+                            height: 45,
+                            padding: const EdgeInsets.all(3),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                            ),
+                            child: _icon,
+                          ),
+                        ),
+                        const SizedBox(width: 15),
+                        Container(
+                          width: MediaQuery.of(context).size.width / 1.9,
+                          child: TextFormField(
+                            controller: newPaymentMethodController,
+                            keyboardType: TextInputType.text,
+                            style: TextStyleUtils.bold(60)
+                                .copyWith(color: Colors.grey),
+                            textAlign: TextAlign.start,
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Account name',
+                              hintStyle:
+                                  TextStyle(fontSize: 30, color: Colors.grey),
+                            ),
+                            onChanged: (value) {},
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  InkWell(
+                    onTap: () async {
+                      var paymentMethodName = newPaymentMethodController.text;
+                      await context
+                          .read<IHomeScreenViewModel>()
+                          .createPaymentMethod(paymentMethodName,
+                              _icon.icon.codePoint, _icon.icon.fontFamily);
+                      newPaymentMethodController.clear();
+                      Get.back();
+                      context.read<IHomeScreenViewModel>().initPaymentMethods();
+                    },
+                    child: Container(
+                      width: 68,
+                      height: 68,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.grey[100],

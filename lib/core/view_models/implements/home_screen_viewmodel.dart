@@ -1,8 +1,12 @@
 import 'package:fima/core/hive_database/entities/category_entity/category_entity.dart';
+import 'package:fima/core/hive_database/entities/payment_method_entity/payment_method_entity.dart';
 import 'package:fima/core/services/interfaces/icategory_service.dart';
+import 'package:fima/core/services/interfaces/ipayment_method_service.dart';
 import 'package:fima/core/services/interfaces/itransaction_service.dart';
 import 'package:fima/core/ui_model/category_ui_model.dart';
+import 'package:fima/core/ui_model/payment_method_ui_model.dart';
 import 'package:fima/core/utils/enum.dart';
+import 'package:fima/core/utils/logger_utils.dart';
 import 'package:fima/core/view_models/implements/base_viewmodel.dart';
 import 'package:fima/core/view_models/interfaces/ihome_screen_viewmodel.dart';
 import 'package:fima/global/global_data.dart';
@@ -13,10 +17,16 @@ class HomeScreenViewModel extends BaseViewModel
     implements IHomeScreenViewModel {
   var categoryService = locator<ICategoryService>();
   var transactionService = locator<ITransactionService>();
+  var paymentMethodService = locator<IPaymentMethodService>();
 
   List<CategoryUIModel> _categoriesForDisplay = [];
   @override
-  List<CategoryUIModel> categoriesForDisplay;
+  List<CategoryUIModel> get categoriesForDisplay => _categoriesForDisplay;
+
+  List<PaymentMethodUIModel> _paymentMethodsForDisplay = [];
+  @override
+  List<PaymentMethodUIModel> get paymentMethodsForDisplay =>
+      _paymentMethodsForDisplay;
 
   @override
   void getCategories() {
@@ -46,9 +56,8 @@ class HomeScreenViewModel extends BaseViewModel
               : totalAmount.abs() / totalAllMonth.abs() * 100;
         }
       }
-      categoriesForDisplay = _categoriesForDisplay;
-      categoriesForDisplay
-          .sort((a, b) => b.totalAmount.compareTo(a.totalAmount));
+      _categoriesForDisplay
+          .sort((a, b) => b.totalAmount.abs().compareTo(a.totalAmount.abs()));
       changeState(DataState.DataFetchedSuccessfully);
     } else {
       changeState(DataState.NoDataToDisplay);
@@ -59,18 +68,56 @@ class HomeScreenViewModel extends BaseViewModel
   Future<void> createCategory(
       String categoryName, int codePoint, String fontFamily) async {
     changeState(DataState.FetchingData);
-    CategoryEntity newCategory = CategoryEntity(
-      id: Uuid().v4(),
-      codePoint: codePoint,
-      name: categoryName,
-      fontFamilly: fontFamily,
-    );
-    await categoryService.insertAll([newCategory]);
-    var categoryUIModel = newCategory.toUIModel();
-    locator<GlobalData>().categorySelected = categoryUIModel;
-    _categoriesForDisplay.add(categoryUIModel);
-    categoriesForDisplay = _categoriesForDisplay;
-    categoriesForDisplay.sort((a, b) => b.totalAmount.compareTo(a.totalAmount));
+    try {
+      CategoryEntity newCategory = CategoryEntity(
+        id: Uuid().v4(),
+        codePoint: codePoint,
+        name: categoryName,
+        fontFamilly: fontFamily,
+      );
+      await categoryService.insertAll([newCategory]);
+      var categoryUIModel = newCategory.toUIModel();
+      locator<GlobalData>().categorySelected = categoryUIModel;
+      _categoriesForDisplay.add(categoryUIModel);
+      _categoriesForDisplay
+          .sort((a, b) => b.totalAmount.compareTo(a.totalAmount));
+    } catch (e) {
+      await LoggerUtils.logException(e);
+    }
     changeState(DataState.DataFetchedSuccessfully);
+  }
+
+  @override
+  Future<void> createPaymentMethod(
+      String paymentMethod, int codePoint, String fontFamily) async {
+    changeState(DataState.FetchingData);
+    try {
+      PaymentMethodEntity newPaymentMethod = PaymentMethodEntity(
+        id: Uuid().v4(),
+        codePoint: codePoint,
+        fontFamily: fontFamily,
+        name: paymentMethod,
+      );
+      await paymentMethodService.insertAll([newPaymentMethod]);
+      var paymentMethodUIModel = newPaymentMethod.toUIModel();
+      locator<GlobalData>().paymentMethodSelected = paymentMethodUIModel;
+      _paymentMethodsForDisplay.add(paymentMethodUIModel);
+      _paymentMethodsForDisplay.sort((a, b) => b.name.compareTo(a.name));
+    } catch (e) {
+      await LoggerUtils.logException(e);
+    }
+    changeState(DataState.DataFetchedSuccessfully);
+  }
+
+  @override
+  void initPaymentMethods() {
+    _paymentMethodsForDisplay.clear();
+    var paymentMethods = paymentMethodService.getPaymentMethods();
+    if (paymentMethods.length > 0) {
+      _paymentMethodsForDisplay =
+          paymentMethods.map((e) => e.toUIModel()).toList();
+      _paymentMethodsForDisplay.sort((a, b) => a.name.compareTo(b.name));
+      notifyListeners();
+    }
   }
 }

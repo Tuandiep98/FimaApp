@@ -1,7 +1,9 @@
 import 'package:fima/core/ui_model/transaction_ui_model.dart';
+import 'package:fima/core/utils/string_extension.dart';
 import 'package:fima/core/utils/text_style_utils.dart';
 import 'package:fima/ui/common_widgets/currency_money_display.dart';
 import 'package:flutter/material.dart';
+import 'package:text_scroll/text_scroll.dart';
 
 class TransactionCard extends StatelessWidget {
   final TransactionUIModel transaction;
@@ -20,30 +22,46 @@ class TransactionCard extends StatelessWidget {
         child: Row(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.only(left: 10),
               child: Container(
                 width: 7,
-                height: 30,
+                height: 40,
                 decoration: BoxDecoration(
                   color: transaction.type == 1 ? Colors.green : Colors.red,
                   borderRadius: BorderRadius.circular(7),
                 ),
               ),
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  (transaction.type == 1 ? 'Income' : 'Expense') +
-                      '(${transaction.currencySymbol})',
-                  style: TextStyleUtils.regular(28),
-                ),
-                MoneyDisplay(
-                  amount: transaction.amount,
-                  currencySymbol: transaction.currencySymbol,
-                ),
-              ],
+            const SizedBox(width: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    transaction.categoryName ?? '[category-name]',
+                    style: TextStyleUtils.regular(28),
+                  ),
+                  !transaction.note.isNullOrEmpty()
+                      ? Container(
+                          width: 145,
+                          child: TextScroll(
+                            transaction.note ?? '[note]',
+                            style: TextStyleUtils.thin(20)
+                                .copyWith(fontStyle: FontStyle.italic),
+                            velocity: Velocity(pixelsPerSecond: Offset(60, 0)),
+                            pauseBetween: Duration(milliseconds: 5000),
+                            mode: TextScrollMode.bouncing,
+                          ),
+                        )
+                      : const SizedBox.shrink(),
+                  MoneyDisplay(
+                    amount: transaction.amount,
+                    currencySymbol: transaction.currencySymbol,
+                  ),
+                ],
+              ),
             ),
           ],
         ),

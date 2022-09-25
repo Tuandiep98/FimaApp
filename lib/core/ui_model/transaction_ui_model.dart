@@ -11,6 +11,7 @@ class TransactionUIModel {
   String currencySymbol;
   String note;
   String bank;
+  String categoryName;
 
   TransactionUIModel({
     this.id,
@@ -23,6 +24,7 @@ class TransactionUIModel {
     this.currencySymbol,
     this.note,
     this.bank,
+    this.categoryName = '',
   });
 
   TransactionEntity toEntity() {

@@ -1,6 +1,7 @@
 import 'package:fima/core/utils/text_style_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:text_scroll/text_scroll.dart';
 
 final oCcy = new NumberFormat("#,##0.00", "en_US");
 final vCcy = new NumberFormat("#,##0", "vi_VN");
@@ -15,9 +16,12 @@ class MoneyDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
+    return TextScroll(
       '${vCcy.format(amount)}' + currencySymbol,
       style: TextStyleUtils.regular(22).copyWith(color: color ?? Colors.black),
+      velocity: Velocity(pixelsPerSecond: Offset(20, 0)),
+      pauseBetween: Duration(milliseconds: 2500),
+      mode: TextScrollMode.bouncing,
     );
   }
 }

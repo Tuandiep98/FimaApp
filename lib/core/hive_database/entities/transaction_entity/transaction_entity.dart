@@ -1,4 +1,7 @@
+import 'package:fima/core/services/interfaces/icategory_service.dart';
 import 'package:fima/core/ui_model/transaction_ui_model.dart';
+import 'package:fima/core/utils/list_extension.dart';
+import 'package:fima/global/locator.dart';
 import 'package:hive/hive.dart';
 import '../base_entity.dart';
 part 'transaction_entity.g.dart';
@@ -38,6 +41,10 @@ class TransactionEntity extends BaseEntity {
   }) : super(id: id);
 
   TransactionUIModel toUIModel() {
+    var categoryName = locator<ICategoryService>()
+        .getCategories()
+        .firstOrDefault((x) => x.id == this.categoryId)
+        ?.name;
     return TransactionUIModel(
       id: this.id,
       categoryId: this.categoryId,
@@ -49,6 +56,7 @@ class TransactionEntity extends BaseEntity {
       currencySymbol: this.currencySymbol,
       note: this.note,
       bank: this.bank,
+      categoryName: categoryName,
     );
   }
 }

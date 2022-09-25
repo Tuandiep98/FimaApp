@@ -246,17 +246,14 @@ class MockData {
     List<PaymentMethodEntity> paymentMethods = [
       PaymentMethodEntity(
         id: Uuid().v4(),
-        code: '001',
         name: 'Cash',
       ),
       PaymentMethodEntity(
         id: Uuid().v4(),
-        code: '002',
         name: 'Card',
       ),
       PaymentMethodEntity(
         id: Uuid().v4(),
-        code: '003',
         name: 'Others',
       ),
     ];

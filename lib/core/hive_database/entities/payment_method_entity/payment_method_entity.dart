@@ -9,13 +9,16 @@ class PaymentMethodEntity extends BaseEntityWithImage {
   @HiveField(3)
   String name;
   @HiveField(4)
-  String code;
+  int codePoint;
+  @HiveField(5)
+  String fontFamily;
 
   PaymentMethodEntity({
     String id,
     String image,
     String imageBase64,
-    this.code,
+    this.codePoint,
+    this.fontFamily,
     this.name,
   }) : super(
           id: id,
@@ -25,7 +28,7 @@ class PaymentMethodEntity extends BaseEntityWithImage {
 
   PaymentMethodUIModel toUIModel() {
     return PaymentMethodUIModel(
-      code: this.code,
+      codePoint: this.codePoint,
       image: this.image,
       imageBase64: this.imageBase64,
       name: this.name,
