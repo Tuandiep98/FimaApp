@@ -7,12 +7,12 @@ class AccountService implements IAccountService {
   var _dao = locator<AccountDao>();
 
   @override
-  List<Account2Entity> getAccounts() {
+  List<AccountEntity> getAccounts() {
     return _dao.getAll();
   }
 
   @override
-  Future<void> insertAll(List<Account2Entity> accounts) async {
+  Future<void> insertAll(List<AccountEntity> accounts) async {
     await _dao.insertAll(accounts);
   }
 }

@@ -20,4 +20,9 @@ class TransactionService implements ITransactionService {
   Future<void> clearAll() async {
     await _dao.clear();
   }
+
+  @override
+  List<TransactionEntity> getTransactionsByCreatorId(String creatorId) {
+    return _dao.getAll().where((x) => x.creatorId == creatorId).toList();
+  }
 }

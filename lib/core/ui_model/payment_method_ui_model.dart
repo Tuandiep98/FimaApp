@@ -5,6 +5,8 @@ class PaymentMethodUIModel {
   String image;
   String imageBase64;
   String fontFamily;
+  String emoji;
+  String emojiCategory;
 
   PaymentMethodUIModel({
     this.id,
@@ -13,5 +15,7 @@ class PaymentMethodUIModel {
     this.image,
     this.imageBase64,
     this.fontFamily,
+    this.emoji = '',
+    this.emojiCategory,
   });
 }

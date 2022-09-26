@@ -4,4 +4,5 @@ abstract class ICategoryService {
   List<CategoryEntity> getCategories();
   Future<void> insertAll(List<CategoryEntity> currencies);
   Future<void> clearAll();
+  Future<void> deleteById(String id);
 }

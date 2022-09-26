@@ -27,13 +27,14 @@ class TransactionEntityAdapter extends TypeAdapter<TransactionEntity> {
       currencySymbol: fields[7] as String,
       note: fields[8] as String,
       bank: fields[9] as String,
+      creatorId: fields[10] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, TransactionEntity obj) {
     writer
-      ..writeByte(10)
+      ..writeByte(11)
       ..writeByte(3)
       ..write(obj.categoryId)
       ..writeByte(4)
@@ -48,6 +49,8 @@ class TransactionEntityAdapter extends TypeAdapter<TransactionEntity> {
       ..write(obj.note)
       ..writeByte(9)
       ..write(obj.bank)
+      ..writeByte(10)
+      ..write(obj.creatorId)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)

@@ -1,3 +1,4 @@
+import 'package:emoji_picker_2/emoji_picker_2.dart';
 import 'package:fima/core/hive_database/entities/category_entity/category_entity.dart';
 import 'package:fima/core/hive_database/entities/payment_method_entity/payment_method_entity.dart';
 import 'package:fima/core/services/interfaces/icategory_service.dart';
@@ -66,14 +67,14 @@ class HomeScreenViewModel extends BaseViewModel
 
   @override
   Future<void> createCategory(
-      String categoryName, int codePoint, String fontFamily) async {
+      String categoryName, Emoji emoji) async {
     changeState(DataState.FetchingData);
     try {
       CategoryEntity newCategory = CategoryEntity(
         id: Uuid().v4(),
-        codePoint: codePoint,
         name: categoryName,
-        fontFamilly: fontFamily,
+        emoji: emoji.emoji,
+        emojiCategory: emoji.name,
       );
       await categoryService.insertAll([newCategory]);
       var categoryUIModel = newCategory.toUIModel();
@@ -89,13 +90,13 @@ class HomeScreenViewModel extends BaseViewModel
 
   @override
   Future<void> createPaymentMethod(
-      String paymentMethod, int codePoint, String fontFamily) async {
+      String paymentMethod, Emoji emoji) async {
     changeState(DataState.FetchingData);
     try {
       PaymentMethodEntity newPaymentMethod = PaymentMethodEntity(
         id: Uuid().v4(),
-        codePoint: codePoint,
-        fontFamily: fontFamily,
+        emoji: emoji.emoji,
+        emojiCategory: emoji.name,
         name: paymentMethod,
       );
       await paymentMethodService.insertAll([newPaymentMethod]);
@@ -118,6 +119,40 @@ class HomeScreenViewModel extends BaseViewModel
           paymentMethods.map((e) => e.toUIModel()).toList();
       _paymentMethodsForDisplay.sort((a, b) => a.name.compareTo(b.name));
       notifyListeners();
+    }
+  }
+
+  @override
+  Future<void> deleteCategories(List<String> categories) async {
+    var deleteObjects = categoryService
+        .getCategories()
+        .where((x) => categories.contains(x.id))
+        .toList();
+    if (deleteObjects.length > 0) {
+      for (var item in deleteObjects) {
+        if (locator<GlobalData>().categorySelected?.id == item.id) {
+          locator<GlobalData>().categorySelected = null;
+        }
+        await categoryService.deleteById(item.id);
+      }
+      getCategories();
+    }
+  }
+
+  @override
+  Future<void> deletePaymentMethods(List<String> paymentMethods) async {
+    var deleteObjects = paymentMethodService
+        .getPaymentMethods()
+        .where((x) => paymentMethods.contains(x.id))
+        .toList();
+    if (deleteObjects.length > 0) {
+      for (var item in deleteObjects) {
+        if (locator<GlobalData>().paymentMethodSelected?.id == item.id) {
+          locator<GlobalData>().paymentMethodSelected = null;
+        }
+        await paymentMethodService.deleteById(item.id);
+      }
+      initPaymentMethods();
     }
   }
 }

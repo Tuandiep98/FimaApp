@@ -22,6 +22,8 @@ class TransactionEntity extends BaseEntity {
   String note;
   @HiveField(9)
   String bank;
+  @HiveField(10)
+  String creatorId;
 
   TransactionEntity({
     String id,
@@ -34,6 +36,7 @@ class TransactionEntity extends BaseEntity {
     this.currencySymbol,
     this.note,
     this.bank,
+    this.creatorId,
   }) : super(
           id: id,
           createdAt: createdAt,

@@ -6,17 +6,17 @@ part of 'account_entity.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class Account2EntityAdapter extends TypeAdapter<Account2Entity> {
+class AccountEntityAdapter extends TypeAdapter<AccountEntity> {
   @override
   final int typeId = 5;
 
   @override
-  Account2Entity read(BinaryReader reader) {
+  AccountEntity read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Account2Entity(
+    return AccountEntity(
       id: fields[0] as String,
       createdAt: fields[1] as DateTime,
       updatedAt: fields[2] as DateTime,
@@ -30,7 +30,7 @@ class Account2EntityAdapter extends TypeAdapter<Account2Entity> {
   }
 
   @override
-  void write(BinaryWriter writer, Account2Entity obj) {
+  void write(BinaryWriter writer, AccountEntity obj) {
     writer
       ..writeByte(9)
       ..writeByte(3)
@@ -59,7 +59,7 @@ class Account2EntityAdapter extends TypeAdapter<Account2Entity> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Account2EntityAdapter &&
+      other is AccountEntityAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

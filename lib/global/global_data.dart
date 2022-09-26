@@ -15,7 +15,7 @@ class GlobalData {
   CategoryUIModel categorySelected;
   TransactionType transactionType;
   PaymentMethodUIModel paymentMethodSelected;
-  Account2Entity currentUser;
+  AccountEntity currentUser;
 
   String getTransactionTypeLabel() {
     switch (transactionType) {

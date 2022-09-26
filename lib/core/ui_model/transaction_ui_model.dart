@@ -12,6 +12,7 @@ class TransactionUIModel {
   String note;
   String bank;
   String categoryName;
+  String creatorId;
 
   TransactionUIModel({
     this.id,
@@ -25,6 +26,7 @@ class TransactionUIModel {
     this.note,
     this.bank,
     this.categoryName = '',
+    this.creatorId,
   });
 
   TransactionEntity toEntity() {
@@ -39,6 +41,7 @@ class TransactionUIModel {
       currencySymbol: this.currencySymbol,
       note: this.note,
       bank: this.bank,
+      creatorId: this.creatorId,
     );
   }
 }

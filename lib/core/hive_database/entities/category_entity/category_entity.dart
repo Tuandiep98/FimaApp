@@ -12,6 +12,10 @@ class CategoryEntity extends BaseEntityWithImage {
   int codePoint;
   @HiveField(7)
   String fontFamilly;
+  @HiveField(8)
+  String emoji;
+  @HiveField(9)
+  String emojiCategory;
 
   CategoryEntity({
     String id,
@@ -22,6 +26,8 @@ class CategoryEntity extends BaseEntityWithImage {
     this.codePoint,
     this.fontFamilly,
     this.name,
+    this.emoji,
+    this.emojiCategory,
   }) : super(
           id: id,
           image: image,
@@ -42,6 +48,8 @@ class CategoryEntity extends BaseEntityWithImage {
       totalAmount: 0,
       totalAllMonth: 0,
       percent: 0,
+      emoji: this.emoji,
+      emojiCategory: this.emojiCategory,
     );
   }
 }

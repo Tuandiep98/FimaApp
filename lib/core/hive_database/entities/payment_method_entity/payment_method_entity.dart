@@ -12,6 +12,10 @@ class PaymentMethodEntity extends BaseEntityWithImage {
   int codePoint;
   @HiveField(7)
   String fontFamily;
+  @HiveField(8)
+  String emoji;
+  @HiveField(9)
+  String emojiCategory;
 
   PaymentMethodEntity({
     String id,
@@ -22,6 +26,8 @@ class PaymentMethodEntity extends BaseEntityWithImage {
     this.codePoint,
     this.fontFamily,
     this.name,
+    this.emoji,
+    this.emojiCategory,
   }) : super(
           id: id,
           image: image,
@@ -36,6 +42,8 @@ class PaymentMethodEntity extends BaseEntityWithImage {
       image: this.image,
       imageBase64: this.imageBase64,
       name: this.name,
+      emoji: this.emoji,
+      emojiCategory: this.emojiCategory,
     );
   }
 }

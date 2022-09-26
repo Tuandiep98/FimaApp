@@ -194,6 +194,7 @@ class DialogUtils {
     await showModalBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
+      isScrollControlled: true,
       builder: (BuildContext context) {
         return IntrinsicHeight(
           child: Container(

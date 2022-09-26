@@ -25,19 +25,25 @@ class CategoryEntityAdapter extends TypeAdapter<CategoryEntity> {
       codePoint: fields[6] as int,
       fontFamilly: fields[7] as String,
       name: fields[5] as String,
+      emoji: fields[8] as String,
+      emojiCategory: fields[9] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, CategoryEntity obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(10)
       ..writeByte(5)
       ..write(obj.name)
       ..writeByte(6)
       ..write(obj.codePoint)
       ..writeByte(7)
       ..write(obj.fontFamilly)
+      ..writeByte(8)
+      ..write(obj.emoji)
+      ..writeByte(9)
+      ..write(obj.emojiCategory)
       ..writeByte(3)
       ..write(obj.image)
       ..writeByte(4)

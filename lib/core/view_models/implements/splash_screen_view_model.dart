@@ -16,7 +16,7 @@ class SplashScreenViewModel extends ChangeNotifier
   Future<void> continueAsGuest({bool asBackgroundCheck = false}) async {
     var guest = accountService.getAccounts().firstOrDefault((x) => x.isGuest);
     if (guest == null && !asBackgroundCheck) {
-      Account2Entity newGuest = Account2Entity(
+      AccountEntity newGuest = AccountEntity(
         id: Uuid().v4(),
         username: 'guest',
         password: 'guest',
@@ -28,7 +28,7 @@ class SplashScreenViewModel extends ChangeNotifier
       await accountService.insertAll([newGuest]);
       _globalData.currentUser = newGuest;
     } else {
-      _globalData.currentUser = guest;
+      if (!asBackgroundCheck) _globalData.currentUser = guest;
     }
   }
 }

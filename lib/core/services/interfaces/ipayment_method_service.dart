@@ -4,4 +4,5 @@ abstract class IPaymentMethodService {
   List<PaymentMethodEntity> getPaymentMethods();
   Future<void> insertAll(List<PaymentMethodEntity> paymentMethods);
   Future<void> clearAll();
+  Future<void> deleteById(String id);
 }

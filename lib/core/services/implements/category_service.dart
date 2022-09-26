@@ -20,4 +20,9 @@ class CategoryService implements ICategoryService {
   Future<void> clearAll() async {
     await _dao.clear();
   }
+
+  @override
+  Future<void> deleteById(String id) async {
+    await _dao.delete(id);
+  }
 }

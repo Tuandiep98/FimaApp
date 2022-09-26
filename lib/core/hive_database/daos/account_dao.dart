@@ -2,4 +2,4 @@ import 'package:fima/core/hive_database/entities/account_entity/account_entity.d
 
 import 'base_dao.dart';
 
-class AccountDao extends BaseDao<Account2Entity> {}
+class AccountDao extends BaseDao<AccountEntity> {}

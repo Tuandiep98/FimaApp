@@ -3,7 +3,7 @@ import '../base_entity.dart';
 part 'account_entity.g.dart';
 
 @HiveType(typeId: 5)
-class Account2Entity extends BaseEntity {
+class AccountEntity extends BaseEntity {
   @HiveField(3)
   String username;
   @HiveField(4)
@@ -17,7 +17,7 @@ class Account2Entity extends BaseEntity {
   @HiveField(8)
   String bio;
 
-  Account2Entity({
+  AccountEntity({
     String id,
     DateTime createdAt,
     DateTime updatedAt,

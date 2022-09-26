@@ -49,7 +49,8 @@ class TransactionViewModel extends BaseViewModel
   void initTransactions() {
     _transactionForDisplays.clear();
     changeState(DataState.FetchingData);
-    var transactions = locator<ITransactionService>().getTransactions();
+    var transactions = _transactionService
+        .getTransactionsByCreatorId(_globalData.currentUser?.id);
     if (transactions.length > 0) {
       _transactionForDisplays = transactions.map((e) => e.toUIModel()).toList();
     }
@@ -128,6 +129,7 @@ class TransactionViewModel extends BaseViewModel
         currencySymbol: _currency.symbol,
         note: note,
         bank: '',
+        creatorId: _globalData.currentUser?.id,
       );
       await _transactionService.insert(newTransaction);
       initTransactions();

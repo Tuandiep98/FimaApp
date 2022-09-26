@@ -48,10 +48,10 @@ class HiveBoxMap {
         Hive.registerAdapter(PaymentMethodEntityAdapter());
       },
     ),
-    Account2Entity: MyHive<Account2Entity>(
+    AccountEntity: MyHive<AccountEntity>(
       boxName: HiveBoxName.accounts,
       registerAdapterFunction: () {
-        Hive.registerAdapter(Account2EntityAdapter());
+        Hive.registerAdapter(AccountEntityAdapter());
       },
     ),
   };
