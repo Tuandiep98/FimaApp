@@ -604,6 +604,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.5"
+  r_dotted_line_border:
+    dependency: "direct main"
+    description:
+      name: r_dotted_line_border
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.1"
   retrofit:
     dependency: "direct main"
     description:

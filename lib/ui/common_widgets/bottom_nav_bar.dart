@@ -21,10 +21,16 @@ class _BaseScreenState extends State<BaseScreen> {
 
   final _screens = [HomeScreen(), AddTransactionScreen(), SettingScreen()];
   final items = [
-    SSBottomNavItem(text: 'Home', iconData: Icons.home, iconSize: 22),
+    SSBottomNavItem(
+        text: 'Analysis',
+        iconData: Icons.stacked_bar_chart_rounded,
+        iconSize: 22),
     SSBottomNavItem(
         text: 'Add', iconData: Icons.add, iconSize: 22, isIconOnly: true),
-    SSBottomNavItem(text: 'Profile', iconData: Icons.person, iconSize: 22),
+    SSBottomNavItem(
+        text: 'Settings',
+        iconData: Icons.settings_suggest_rounded,
+        iconSize: 22),
   ];
 
   @override

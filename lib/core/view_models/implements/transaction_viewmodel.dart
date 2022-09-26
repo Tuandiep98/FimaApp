@@ -23,13 +23,13 @@ class TransactionViewModel extends BaseViewModel
   @override
   String get transactionModeLabel => _transactionModeLabel;
 
-  TransactionUIModel _expense;
+  int _expenseToday = 0;
   @override
-  TransactionUIModel get expense => _expense;
+  int get expenseToday => _expenseToday;
 
-  TransactionUIModel _income;
+  int _incomeToday = 0;
   @override
-  TransactionUIModel get income => _income;
+  int get incomeToday => _incomeToday;
 
   var _colors = [
     0xffDEEDCF,
@@ -65,13 +65,15 @@ class TransactionViewModel extends BaseViewModel
     if (transactionForDisplays.length > 0) {
       var expenses = transactionForDisplays.where((x) => x.type == 1).toList();
       if (expenses.length > 0) {
-        _expense = expenses
-            .reduce((curr, next) => (curr.amount < next.amount) ? curr : next);
+        for (var item in expenses) {
+          _expenseToday += item.amount;
+        }
       }
       var incomes = transactionForDisplays.where((x) => x.type == 0).toList();
       if (incomes.length > 0) {
-        _income = incomes
-            .reduce((curr, next) => (curr.amount > next.amount) ? curr : next);
+        for (var item in incomes) {
+          _incomeToday += item.amount;
+        }
       }
       changeState(DataState.DataFetchedSuccessfully);
     } else {

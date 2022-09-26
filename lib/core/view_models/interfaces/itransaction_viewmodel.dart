@@ -6,8 +6,8 @@ import 'ibase_viewmodel.dart';
 abstract class ITransactionViewModel extends IBaseViewModel {
   List<TransactionUIModel> transactionForDisplays;
   String get transactionModeLabel;
-  TransactionUIModel get expense;
-  TransactionUIModel get income;
+  int get expenseToday;
+  int get incomeToday;
   void setTransactionModeLabel(TransactionType type);
   void initTransactions();
   int getColorActivitiesOfTheDay(DateTime dateTime);

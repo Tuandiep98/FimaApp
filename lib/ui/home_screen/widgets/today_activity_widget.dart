@@ -1,5 +1,7 @@
 import 'package:fima/core/utils/text_style_utils.dart';
 import 'package:fima/core/view_models/interfaces/itransaction_viewmodel.dart';
+import 'package:fima/global/global_data.dart';
+import 'package:fima/global/locator.dart';
 import 'package:fima/ui/common_widgets/currency_money_display.dart';
 import 'package:fima/ui/common_widgets/no_data_to_display.dart';
 import 'package:fima/ui/data_screen.dart';
@@ -83,9 +85,11 @@ class _TodayActivityWidgetState extends State<TodayActivityWidget> {
                           Container(
                             width: MediaQuery.of(context).size.width / 6.5,
                             child: MoneyDisplay(
-                              amount: _viewModel.expense?.amount ?? 0,
-                              currencySymbol:
-                                  _viewModel.expense?.currencySymbol ?? 'đ',
+                              amount: _viewModel.expenseToday ?? 0,
+                              currencySymbol: locator<GlobalData>()
+                                      .currentCurrency
+                                      ?.symbol ??
+                                  'đ',
                               color: Colors.white60,
                             ),
                           ),
@@ -97,9 +101,11 @@ class _TodayActivityWidgetState extends State<TodayActivityWidget> {
                           Container(
                             width: MediaQuery.of(context).size.width / 6.5,
                             child: MoneyDisplay(
-                              amount: _viewModel.income?.amount ?? 0,
-                              currencySymbol:
-                                  _viewModel.income?.currencySymbol ?? 'đ',
+                              amount: _viewModel.incomeToday ?? 0,
+                              currencySymbol: locator<GlobalData>()
+                                      .currentCurrency
+                                      ?.symbol ??
+                                  'đ',
                               color: Colors.white60,
                             ),
                           ),

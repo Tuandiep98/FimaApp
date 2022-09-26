@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:emoji_picker_2/emoji_picker_2.dart';
 import 'package:fima/core/utils/dialog_utils.dart';
 import 'package:fima/core/utils/enum.dart';
@@ -13,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:r_dotted_line_border/r_dotted_line_border.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 
 class AddTransactionScreen extends StatefulWidget {
@@ -393,7 +396,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                                     locator<GlobalData>()
                                         .paymentMethodSelected
                                         ?.name
-                                ? Colors.blue[100]
+                                ? Colors.black
                                 : Colors.grey[100],
                             borderRadius: BorderRadius.circular(20),
                           ),
@@ -475,9 +478,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                         onLongPress: () async {
                           await DialogUtils.showOkCancelDialog(
                               title: 'Confirm',
-                              body: 'Are you sure to delete ' +
-                                  e.name +
-                                  ' category!',
+                              body: 'Are you sure to delete ' + e.name + ' !',
                               onOK: () async {
                                 Get.back();
                                 await _viewModel.deleteCategories([e.id]);
@@ -501,7 +502,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                                       locator<GlobalData>()
                                           .categorySelected
                                           ?.name
-                                  ? Colors.blue[100]
+                                  ? Colors.black
                                   : Colors.grey[100],
                               borderRadius: BorderRadius.circular(20),
                             ),
@@ -571,7 +572,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
   Future<void> _showAddCategoryDialog() async {
     Icon _icon = Icon(
       Icons.category_rounded,
-      size: 30,
+      size: 60,
       color: Colors.grey[200],
     );
 
@@ -587,97 +588,96 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
+                child: Column(
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 0),
+                      width: 90,
+                      height: 90,
+                      padding: const EdgeInsets.all(3),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: Colors.grey[100],
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                        border: RDottedLineBorder.all(
+                          width: 1,
+                          color: Colors.grey[300],
+                        ),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            width: 45,
-                            height: 45,
-                            padding: const EdgeInsets.all(3),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.white,
-                            ),
-                            child: !isEmoji
-                                ? _icon
-                                : Center(
-                                    child: Text(
-                                      emojiSelected.emoji,
-                                      style: TextStyleUtils.regular(40),
-                                    ),
-                                  ),
-                          ),
-                          const SizedBox(width: 15),
-                          Container(
-                            width: MediaQuery.of(context).size.width / 1.9,
-                            child: TextFormField(
-                              controller: newCategoryController,
-                              keyboardType: TextInputType.text,
-                              style: TextStyleUtils.bold(60)
-                                  .copyWith(color: Colors.grey),
-                              textAlign: TextAlign.start,
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Category name',
-                                hintStyle:
-                                    TextStyle(fontSize: 30, color: Colors.grey),
+                      child: !isEmoji
+                          ? _icon
+                          : Center(
+                              child: Text(
+                                emojiSelected.emoji,
+                                style: TextStyleUtils.regular(70),
                               ),
-                              onChanged: (value) {},
                             ),
-                          ),
-                        ],
-                      ),
                     ),
                     const SizedBox(width: 10),
-                    InkWell(
-                      onTap: () async {
-                        var categoryName = newCategoryController.text;
-                        if (!categoryName.isNullOrEmpty()) {
-                          await context
-                              .read<IHomeScreenViewModel>()
-                              .createCategory(categoryName, emojiSelected);
-                          newCategoryController.clear();
-                          Get.back();
-                          context.read<IHomeScreenViewModel>().getCategories();
-                        }
-                      },
-                      child: Container(
-                        width: 68,
-                        height: 68,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.grey[100],
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const SizedBox(width: 1),
+                        Spacer(),
+                        Container(
+                          width: MediaQuery.of(context).size.width / 1.5,
+                          child: TextFormField(
+                            controller: newCategoryController,
+                            keyboardType: TextInputType.text,
+                            style: TextStyleUtils.bold(60)
+                                .copyWith(color: Colors.grey),
+                            textAlign: TextAlign.start,
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Category name',
+                              hintStyle:
+                                  TextStyle(fontSize: 30, color: Colors.grey),
+                            ),
+                            onChanged: (value) {},
+                          ),
                         ),
-                        child: Icon(
-                          Icons.done_rounded,
-                          size: 30,
-                          color: Colors.green,
+                        InkWell(
+                          onTap: () async {
+                            var categoryName = newCategoryController.text;
+                            if (!categoryName.isNullOrEmpty()) {
+                              await context
+                                  .read<IHomeScreenViewModel>()
+                                  .createCategory(categoryName, emojiSelected);
+                              newCategoryController.clear();
+                              Get.back();
+                              context
+                                  .read<IHomeScreenViewModel>()
+                                  .getCategories();
+                            }
+                          },
+                          child: Container(
+                            width: 68,
+                            height: 68,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.done_rounded,
+                              size: 30,
+                              color: Colors.green,
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                   ],
                 ),
               ),
               const SizedBox(height: 10),
               EmojiPicker2(
-                rows: 3,
-                columns: 7,
-                recommendKeywords: ["racing", "horse"],
+                rows: 4,
+                columns: 5,
+                recommendKeywords: ["fruit", "smile"],
                 numRecommended: 10,
+                bgColor: Colors.white,
+                buttonMode:
+                    Platform.isIOS ? ButtonMode.CUPERTINO : ButtonMode.MATERIAL,
+                indicatorColor: Colors.grey[500],
                 onEmojiSelected: (emoji, category) {
-                  print(emoji);
                   setState(() {
                     emojiSelected = emoji;
                     isEmoji = true;
@@ -694,7 +694,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
   Future<void> _showAddPaymentMethodDialog() async {
     Icon _icon = Icon(
       Icons.category_rounded,
-      size: 30,
+      size: 60,
       color: Colors.grey[200],
     );
 
@@ -710,100 +710,98 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
+                child: Column(
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 0),
+                      width: 90,
+                      height: 90,
+                      padding: const EdgeInsets.all(3),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: Colors.grey[100],
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                        border: RDottedLineBorder.all(
+                          width: 1,
+                          color: Colors.grey[300],
+                        ),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            width: 45,
-                            height: 45,
-                            padding: const EdgeInsets.all(3),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.white,
-                            ),
-                            child: !isEmoji
-                                ? _icon
-                                : Center(
-                                    child: Text(
-                                      emojiSelected.emoji,
-                                      style: TextStyleUtils.regular(40),
-                                    ),
-                                  ),
-                          ),
-                          const SizedBox(width: 15),
-                          Container(
-                            width: MediaQuery.of(context).size.width / 1.9,
-                            child: TextFormField(
-                              controller: newPaymentMethodController,
-                              keyboardType: TextInputType.text,
-                              style: TextStyleUtils.bold(60)
-                                  .copyWith(color: Colors.grey),
-                              textAlign: TextAlign.start,
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Account name',
-                                hintStyle:
-                                    TextStyle(fontSize: 30, color: Colors.grey),
+                      child: !isEmoji
+                          ? _icon
+                          : Center(
+                              child: Text(
+                                emojiSelected.emoji,
+                                style: TextStyleUtils.regular(70),
                               ),
-                              onChanged: (value) {},
                             ),
-                          ),
-                        ],
-                      ),
                     ),
                     const SizedBox(width: 10),
-                    InkWell(
-                      onTap: () async {
-                        var paymentMethodName = newPaymentMethodController.text;
-                        if (!paymentMethodName.isNullOrEmpty()) {
-                          await context
-                              .read<IHomeScreenViewModel>()
-                              .createPaymentMethod(
-                                  paymentMethodName, emojiSelected);
-                          newPaymentMethodController.clear();
-                          Get.back();
-                          context
-                              .read<IHomeScreenViewModel>()
-                              .initPaymentMethods();
-                        }
-                      },
-                      child: Container(
-                        width: 68,
-                        height: 68,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.grey[100],
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const SizedBox(width: 1),
+                        Spacer(),
+                        Container(
+                          width: MediaQuery.of(context).size.width / 1.5,
+                          child: TextFormField(
+                            controller: newPaymentMethodController,
+                            keyboardType: TextInputType.text,
+                            style: TextStyleUtils.bold(60)
+                                .copyWith(color: Colors.grey),
+                            textAlign: TextAlign.start,
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Account name',
+                              hintStyle:
+                                  TextStyle(fontSize: 30, color: Colors.grey),
+                            ),
+                            onChanged: (value) {},
+                          ),
                         ),
-                        child: Icon(
-                          Icons.done_rounded,
-                          size: 30,
-                          color: Colors.green,
+                        InkWell(
+                          onTap: () async {
+                            var paymentMethodName =
+                                newPaymentMethodController.text;
+                            if (!paymentMethodName.isNullOrEmpty()) {
+                              await context
+                                  .read<IHomeScreenViewModel>()
+                                  .createPaymentMethod(
+                                      paymentMethodName, emojiSelected);
+                              newPaymentMethodController.clear();
+                              Get.back();
+                              context
+                                  .read<IHomeScreenViewModel>()
+                                  .initPaymentMethods();
+                            }
+                          },
+                          child: Container(
+                            width: 70,
+                            height: 70,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.done_rounded,
+                              size: 30,
+                              color: Colors.green,
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
+                    const SizedBox(height: 10),
                   ],
                 ),
               ),
               const SizedBox(height: 10),
               EmojiPicker2(
-                rows: 3,
-                columns: 7,
-                recommendKeywords: ["racing", "horse"],
+                rows: 4,
+                columns: 5,
+                recommendKeywords: ["fruit", "smile"],
                 numRecommended: 10,
+                bgColor: Colors.white,
+                buttonMode:
+                    Platform.isIOS ? ButtonMode.CUPERTINO : ButtonMode.MATERIAL,
+                indicatorColor: Colors.grey[500],
                 onEmojiSelected: (emoji, category) {
-                  print(emoji);
                   setState(() {
                     emojiSelected = emoji;
                     isEmoji = true;
