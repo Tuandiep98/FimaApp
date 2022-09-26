@@ -34,6 +34,7 @@ class CategoryCard extends StatelessWidget {
               const SizedBox(width: 10),
               Spacer(),
               Container(
+                width: MediaQuery.of(context).size.width / 6.5,
                 alignment: Alignment.centerRight,
                 child: MoneyDisplay(
                   amount: category?.totalAmount ?? 0,

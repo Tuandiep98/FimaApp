@@ -1,4 +1,5 @@
 import 'package:calendar_view/calendar_view.dart';
+import 'package:fima/core/utils/dialog_utils.dart';
 import 'package:fima/core/utils/text_style_utils.dart';
 import 'package:fima/core/view_models/interfaces/itransaction_viewmodel.dart';
 import 'package:fima/ui/common_widgets/title_txt.dart';
@@ -69,9 +70,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                     onPageChange: (date, pageIndex) =>
                         print("$date, $pageIndex"),
-                    onCellTap: (events, date) {
+                    onCellTap: (events, date) async {
                       // Implement callback when user taps on a cell.
-                      print(events);
+                      _viewModel.initTransactionsByDate(date);
+                      await DialogUtils.showActivityOfDateDialog(date);
                     },
                     startDay:
                         WeekDays.sunday, // To change the first day of the week.

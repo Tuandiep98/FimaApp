@@ -17,7 +17,13 @@ class TransactionViewModel extends BaseViewModel
 
   List<TransactionUIModel> _transactionForDisplays = [];
   @override
-  List<TransactionUIModel> transactionForDisplays;
+  List<TransactionUIModel> get transactionForDisplays =>
+      _transactionForDisplays;
+
+  List<TransactionUIModel> _transactionByDateForDisplays = [];
+  @override
+  List<TransactionUIModel> get transactionByDateForDisplays =>
+      _transactionByDateForDisplays;
 
   String _transactionModeLabel = 'Expense';
   @override
@@ -30,6 +36,14 @@ class TransactionViewModel extends BaseViewModel
   int _incomeToday = 0;
   @override
   int get incomeToday => _incomeToday;
+
+  int _expenseForDate = 0;
+  @override
+  int get expenseForDate => _expenseForDate;
+
+  int _incomeForDate = 0;
+  @override
+  int get incomeForDate => _incomeForDate;
 
   var _colors = [
     0xffDEEDCF,
@@ -48,28 +62,29 @@ class TransactionViewModel extends BaseViewModel
   @override
   void initTransactions() {
     _transactionForDisplays.clear();
+    _incomeToday = 0;
+    _expenseToday = 0;
     changeState(DataState.FetchingData);
     var transactions = _transactionService
-        .getTransactionsByCreatorId(_globalData.currentUser?.id);
-    if (transactions.length > 0) {
-      _transactionForDisplays = transactions.map((e) => e.toUIModel()).toList();
-    }
-    transactionForDisplays = _transactionForDisplays
+        .getTransactionsByCreatorId(_globalData.currentUser?.id)
         .where((x) =>
             x.createdAt.day == DateTime.now().day &&
             x.createdAt.month == DateTime.now().month &&
             x.createdAt.year == DateTime.now().year)
         .toList();
-    transactionForDisplays.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    if (transactions.length > 0) {
+      _transactionForDisplays = transactions.map((e) => e.toUIModel()).toList();
+    }
+    _transactionForDisplays.sort((a, b) => b.createdAt.compareTo(a.createdAt));
 
-    if (transactionForDisplays.length > 0) {
-      var expenses = transactionForDisplays.where((x) => x.type == 1).toList();
+    if (_transactionForDisplays.length > 0) {
+      var expenses = _transactionForDisplays.where((x) => x.type == 1).toList();
       if (expenses.length > 0) {
         for (var item in expenses) {
           _expenseToday += item.amount;
         }
       }
-      var incomes = transactionForDisplays.where((x) => x.type == 0).toList();
+      var incomes = _transactionForDisplays.where((x) => x.type == 0).toList();
       if (incomes.length > 0) {
         for (var item in incomes) {
           _incomeToday += item.amount;
@@ -137,6 +152,47 @@ class TransactionViewModel extends BaseViewModel
       initTransactions();
     } catch (e) {
       await LoggerUtils.logException(e);
+    }
+  }
+
+  @override
+  void initTransactionsByDate(DateTime date) {
+    _transactionByDateForDisplays.clear();
+    _incomeForDate = 0;
+    _expenseForDate = 0;
+    changeState(DataState.FetchingData);
+    var transactions = _transactionService
+        .getTransactionsByCreatorId(_globalData.currentUser?.id)
+        .where((x) =>
+            x.createdAt.day == date.day &&
+            x.createdAt.month == date.month &&
+            x.createdAt.year == date.year)
+        .toList();
+    if (transactions.length > 0) {
+      _transactionByDateForDisplays =
+          transactions.map((e) => e.toUIModel()).toList();
+    }
+    _transactionByDateForDisplays
+        .sort((a, b) => b.createdAt.compareTo(a.createdAt));
+
+    if (_transactionByDateForDisplays.length > 0) {
+      var expenses =
+          _transactionByDateForDisplays.where((x) => x.type == 1).toList();
+      if (expenses.length > 0) {
+        for (var item in expenses) {
+          _expenseForDate += item.amount;
+        }
+      }
+      var incomes =
+          _transactionByDateForDisplays.where((x) => x.type == 0).toList();
+      if (incomes.length > 0) {
+        for (var item in incomes) {
+          _incomeForDate += item.amount;
+        }
+      }
+      changeState(DataState.DataFetchedSuccessfully);
+    } else {
+      changeState(DataState.NoDataToDisplay);
     }
   }
 }

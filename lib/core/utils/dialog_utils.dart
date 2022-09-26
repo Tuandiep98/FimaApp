@@ -1,7 +1,18 @@
+import 'package:fima/core/utils/text_style_utils.dart';
+import 'package:fima/core/view_models/interfaces/itransaction_viewmodel.dart';
 import 'package:fima/global/app_text.dart';
+import 'package:fima/global/global_data.dart';
+import 'package:fima/global/locator.dart';
+import 'package:fima/ui/common_widgets/currency_money_display.dart';
 import 'package:fima/ui/common_widgets/custom_dialog.dart';
+import 'package:fima/ui/common_widgets/no_data_to_display.dart';
+import 'package:fima/ui/data_screen.dart';
+import 'package:fima/ui/home_screen/widgets/today_activity_widget.dart';
+import 'package:fima/ui/home_screen/widgets/transaction_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import 'localization_utils.dart';
 
@@ -236,5 +247,146 @@ class DialogUtils {
         );
       },
     );
+  }
+
+  static Future<void> showActivityOfDateDialog(DateTime date) async {
+    DateTime now = DateTime.now();
+    var formatDate = DateFormat('dd-MM-yyyy');
+    await Get.dialog(AlertDialog(
+      contentPadding: const EdgeInsets.all(0),
+      content: Consumer<ITransactionViewModel>(
+        builder: (_, _viewModel, ___) {
+          return DataBuilder(
+            arguments: DataBuilderArguments(
+              dataFetchedSuccessfullyWidget: Container(
+                width: MediaQuery.of(Get.context).size.width / 2 - 15,
+                decoration: BoxDecoration(
+                  color: Color(0xff1abc9c),
+                  // borderRadius: BorderRadius.circular(5),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Row(
+                        children: [
+                          Text(
+                            (date.day == now.day &&
+                                    date.month == now.month &&
+                                    date.year == now.year)
+                                ? 'Today'
+                                : formatDate.format(date) ?? '[date-format]',
+                            style: TextStyleUtils.bold(35)
+                                .copyWith(color: Colors.white),
+                          ),
+                          Spacer(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                _viewModel.transactionByDateForDisplays.length >
+                                        0
+                                    ? '(${_viewModel.transactionByDateForDisplays?.length ?? 0})'
+                                    : '',
+                                style: TextStyleUtils.regular(30)
+                                    .copyWith(color: Colors.white),
+                              ),
+                              Icon(
+                                Icons.arrow_forward_ios_rounded,
+                                size: 22,
+                                color: Colors.white,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Container(
+                        height: 30,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(3),
+                          color: Colors.white.withOpacity(0.15),
+                        ),
+                        child: Container(
+                          height: 28,
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.arrow_drop_up_rounded,
+                                size: 25,
+                                color: Colors.green,
+                              ),
+                              Container(
+                                width:
+                                    MediaQuery.of(Get.context).size.width / 5,
+                                child: MoneyDisplay(
+                                  amount: _viewModel.expenseForDate ?? 0,
+                                  currencySymbol: locator<GlobalData>()
+                                          .currentCurrency
+                                          ?.symbol ??
+                                      'đ',
+                                  color: Colors.white60,
+                                ),
+                              ),
+                              Spacer(),
+                              Icon(
+                                Icons.arrow_drop_down_rounded,
+                                size: 25,
+                                color: Colors.red,
+                              ),
+                              Container(
+                                width:
+                                    MediaQuery.of(Get.context).size.width / 5,
+                                child: MoneyDisplay(
+                                  amount: _viewModel.incomeForDate ?? 0,
+                                  currencySymbol: locator<GlobalData>()
+                                          .currentCurrency
+                                          ?.symbol ??
+                                      'đ',
+                                  color: Colors.white60,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    _viewModel.transactionByDateForDisplays != null &&
+                            _viewModel.transactionByDateForDisplays.length > 0
+                        ? SingleChildScrollView(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: _viewModel.transactionByDateForDisplays
+                                  .map((e) => TransactionCard(transaction: e))
+                                  .toList(),
+                            ),
+                          )
+                        : NoDataToDisplay(hideImg: true),
+                    const SizedBox(height: 10),
+                  ],
+                ),
+              ),
+              fetchingDataWidget: TodayActivityWidgetShimmer(),
+              noDataToDisplayWidget: Container(
+                width: MediaQuery.of(Get.context).size.width / 2 - 15,
+                height: 285,
+                decoration: BoxDecoration(
+                  color: Color(0xffe67e22),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: NoDataToDisplay(hideImg: true),
+              ),
+              state: _viewModel.getScreenState(),
+            ),
+          );
+        },
+      ),
+    ));
   }
 }
