@@ -375,7 +375,7 @@ class DialogUtils {
               fetchingDataWidget: TodayActivityWidgetShimmer(),
               noDataToDisplayWidget: Container(
                 width: MediaQuery.of(Get.context).size.width / 2 - 15,
-                height: 285,
+                height: 350,
                 decoration: BoxDecoration(
                   color: Color(0xffe67e22),
                   borderRadius: BorderRadius.circular(5),

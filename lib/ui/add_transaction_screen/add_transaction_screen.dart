@@ -602,14 +602,14 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                           color: Colors.grey[300],
                         ),
                       ),
-                      child: !isEmoji
-                          ? _icon
-                          : Center(
-                              child: Text(
+                      child: Center(
+                        child: !isEmoji
+                            ? _icon
+                            : Text(
                                 emojiSelected.emoji,
                                 style: TextStyleUtils.regular(70),
                               ),
-                            ),
+                      ),
                     ),
                     const SizedBox(width: 10),
                     Row(
@@ -724,14 +724,14 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                           color: Colors.grey[300],
                         ),
                       ),
-                      child: !isEmoji
-                          ? _icon
-                          : Center(
-                              child: Text(
+                      child: Center(
+                        child: !isEmoji
+                            ? _icon
+                            : Text(
                                 emojiSelected.emoji,
                                 style: TextStyleUtils.regular(70),
                               ),
-                            ),
+                      ),
                     ),
                     const SizedBox(width: 10),
                     Row(
