@@ -2,7 +2,6 @@ import 'package:calendar_view/calendar_view.dart';
 import 'package:fima/core/utils/dialog_utils.dart';
 import 'package:fima/core/utils/text_style_utils.dart';
 import 'package:fima/core/view_models/interfaces/itransaction_viewmodel.dart';
-import 'package:fima/ui/common_widgets/dot.dart';
 import 'package:fima/ui/common_widgets/title_txt.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -59,13 +58,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             Text(
                               '${date.day}',
                               style: TextStyleUtils.thin(18).copyWith(
-                                  color: isInMonth
-                                      ? Colors.black
-                                      : Colors.grey[200]),
+                                color: isToday
+                                    ? Colors.red
+                                    : (isInMonth
+                                        ? Colors.black
+                                        : Colors.grey[200]),
+                              ),
                             ),
-                            isToday
-                                ? Dot(color: Colors.red)
-                                : const SizedBox.shrink(),
                           ],
                         ),
                       );

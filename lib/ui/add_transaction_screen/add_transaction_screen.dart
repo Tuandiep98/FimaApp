@@ -14,6 +14,7 @@ import 'package:fima/ui/common_widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:r_dotted_line_border/r_dotted_line_border.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
@@ -207,9 +208,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                   children: [
                     Text(
                       'Today at ' +
-                          '${DateTime.now().hour}' +
-                          ':' +
-                          '${DateTime.now().minute}',
+                          '${DateFormat('HH:mm').format(DateTime.now())}',
                       style: TextStyleUtils.light(30)
                           .copyWith(color: Colors.grey[400]),
                     ),

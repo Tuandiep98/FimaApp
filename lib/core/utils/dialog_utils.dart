@@ -373,9 +373,7 @@ class DialogUtils {
                                   maxHeight:
                                       MediaQuery.of(Get.context).size.height /
                                           1.5,
-                                  minHeight:
-                                      MediaQuery.of(Get.context).size.height /
-                                          2,
+                                  minHeight: 300,
                                 ),
                                 child: SingleChildScrollView(
                                   child: Column(

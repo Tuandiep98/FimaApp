@@ -25,7 +25,7 @@ class TransactionExpanded extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  width: MediaQuery.of(context).size.width / 1.65,
+                  width: MediaQuery.of(context).size.width / 1.67,
                   child: Row(
                     children: [
                       Dot(
