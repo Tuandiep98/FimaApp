@@ -28,7 +28,7 @@ class CategoryCard extends StatelessWidget {
                   category?.name ?? '[Category]',
                   maxLines: 2,
                   overflow: TextOverflow.fade,
-                  style: TextStyleUtils.bold(24).copyWith(color: Colors.white),
+                  style: TextStyleUtils.bold(24),
                 ),
               ),
               const SizedBox(width: 10),
@@ -39,7 +39,6 @@ class CategoryCard extends StatelessWidget {
                 child: MoneyDisplay(
                   amount: category?.totalAmount ?? 0,
                   currencySymbol: currencySymbol ?? '',
-                  color: Colors.white,
                 ),
               ),
             ],
@@ -65,7 +64,7 @@ class CategoryCard extends StatelessWidget {
                         width: category?.percent ?? 45,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: Colors.white,
+                          color: Color(0xFFf0932b),
                         ),
                       ),
                     ),
@@ -76,7 +75,7 @@ class CategoryCard extends StatelessWidget {
               Spacer(),
               Text(
                 '${(category.percent.toInt() > 100) ? 100 : category?.percent?.toInt() ?? 0}%',
-                style: TextStyleUtils.thin(22).copyWith(color: Colors.white),
+                style: TextStyleUtils.thin(22),
               ),
             ],
           ),

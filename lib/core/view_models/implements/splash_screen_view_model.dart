@@ -28,7 +28,7 @@ class SplashScreenViewModel extends ChangeNotifier
       await accountService.insertAll([newGuest]);
       _globalData.currentUser = newGuest;
     } else {
-      if (!asBackgroundCheck) _globalData.currentUser = guest;
+      if (asBackgroundCheck) _globalData.currentUser = guest;
     }
   }
 }

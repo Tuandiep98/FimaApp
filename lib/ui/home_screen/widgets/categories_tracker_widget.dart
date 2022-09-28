@@ -34,60 +34,60 @@ class _CategoriesTrackerWidgetState extends State<CategoriesTrackerWidget> {
       builder: (_, __, _transViewModel, ____) {
         return DataBuilder(
           arguments: DataBuilderArguments(
-            dataFetchedSuccessfullyWidget: Container(
-              width: MediaQuery.of(context).size.width / 2 - 15,
-              height: 285,
-              decoration: BoxDecoration(
-                color: Color(0xffe67e22),
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
+            dataFetchedSuccessfullyWidget: Material(
+              elevation: 10,
+              borderRadius: BorderRadius.circular(8),
+              color: Color(0xFFFFFFFF),
+              child: Container(
+                width: MediaQuery.of(context).size.width / 2 - 15,
+                height: 285,
+                child: Column(
+                  children: [
+                    Row(
                       children: [
-                        Text(
-                          'Categories',
-                          style: TextStyleUtils.bold(30)
-                              .copyWith(color: Colors.white),
-                        ),
-                        Spacer(),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Month',
-                              style: TextStyleUtils.regular(22)
+                        Material(
+                          elevation: 2,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(8),
+                            bottomRight: Radius.circular(8),
+                          ),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
+                            decoration: BoxDecoration(
+                              color: Color(0xFFf0932b),
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(8),
+                                bottomRight: Radius.circular(8),
+                              ),
+                            ),
+                            child: Text(
+                              'Categories for month',
+                              style: TextStyleUtils.bold(25)
                                   .copyWith(color: Colors.white),
                             ),
-                            Icon(
-                              Icons.arrow_forward_ios_rounded,
-                              size: 16,
-                              color: Colors.white,
-                            ),
-                          ],
+                          ),
                         ),
+                        Spacer(),
                       ],
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  Container(
-                    height: 230,
-                    child: SingleChildScrollView(
-                      child:
-                          Consumer<IHomeScreenViewModel>(builder: (_, __, ___) {
-                        return _viewModel.categoriesForDisplay != null
-                            ? Column(
-                                children: _viewModel.categoriesForDisplay
-                                    .map((e) => CategoryCard(category: e))
-                                    .toList(),
-                              )
-                            : NoDataToDisplay(hideImg: true);
-                      }),
+                    Container(
+                      height: 250,
+                      child: SingleChildScrollView(
+                        child: Consumer<IHomeScreenViewModel>(
+                            builder: (_, __, ___) {
+                          return _viewModel.categoriesForDisplay != null
+                              ? Column(
+                                  children: _viewModel.categoriesForDisplay
+                                      .map((e) => CategoryCard(category: e))
+                                      .toList(),
+                                )
+                              : NoDataToDisplay(hideImg: true);
+                        }),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             fetchingDataWidget: CategoriesTrackerWidgetShimmer(),

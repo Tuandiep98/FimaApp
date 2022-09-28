@@ -15,6 +15,10 @@ class TransactionViewModel extends BaseViewModel
   var _transactionService = locator<ITransactionService>();
   var _globalData = locator<GlobalData>();
 
+  List<TransactionUIModel> _transactions = [];
+  @override
+  List<TransactionUIModel> get transactions => _transactions;
+
   List<TransactionUIModel> _transactionForDisplays = [];
   @override
   List<TransactionUIModel> get transactionForDisplays =>
@@ -62,18 +66,21 @@ class TransactionViewModel extends BaseViewModel
   @override
   void initTransactions() {
     _transactionForDisplays.clear();
+    _transactions.clear();
     _incomeToday = 0;
     _expenseToday = 0;
     changeState(DataState.FetchingData);
     var transactions = _transactionService
-        .getTransactionsByCreatorId(_globalData.currentUser?.id)
-        .where((x) =>
-            x.createdAt.day == DateTime.now().day &&
-            x.createdAt.month == DateTime.now().month &&
-            x.createdAt.year == DateTime.now().year)
-        .toList();
+        .getTransactionsByCreatorId(_globalData.currentUser?.id);
+
     if (transactions.length > 0) {
-      _transactionForDisplays = transactions.map((e) => e.toUIModel()).toList();
+      _transactions = transactions.map((e) => e.toUIModel()).toList();
+      _transactionForDisplays = _transactions
+          .where((x) =>
+              x.createdAt.day == DateTime.now().day &&
+              x.createdAt.month == DateTime.now().month &&
+              x.createdAt.year == DateTime.now().year)
+          .toList();
     }
     _transactionForDisplays.sort((a, b) => b.createdAt.compareTo(a.createdAt));
 
@@ -98,7 +105,7 @@ class TransactionViewModel extends BaseViewModel
 
   @override
   int getColorActivitiesOfTheDay(DateTime dateTime) {
-    var transactionByDate = _transactionForDisplays
+    var transactionByDate = _transactions
         .where((x) =>
             x.createdAt.day == dateTime.day &&
             x.createdAt.month == dateTime.month &&
@@ -194,5 +201,17 @@ class TransactionViewModel extends BaseViewModel
     } else {
       changeState(DataState.NoDataToDisplay);
     }
+  }
+
+  @override
+  bool hasTransaction(DateTime date) {
+    var transactions = _transactionService
+        .getTransactionsByCreatorId(_globalData.currentUser?.id)
+        .where((x) =>
+            x.createdAt.day == date.day &&
+            x.createdAt.month == date.month &&
+            x.createdAt.year == date.year)
+        .toList();
+    return transactions.length > 0;
   }
 }

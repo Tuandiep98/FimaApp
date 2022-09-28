@@ -2,6 +2,7 @@ import 'package:calendar_view/calendar_view.dart';
 import 'package:fima/core/utils/dialog_utils.dart';
 import 'package:fima/core/utils/text_style_utils.dart';
 import 'package:fima/core/view_models/interfaces/itransaction_viewmodel.dart';
+import 'package:fima/ui/common_widgets/dot.dart';
 import 'package:fima/ui/common_widgets/title_txt.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -37,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Container(
-                height: 320,
+                height: 285,
                 child: Consumer<ITransactionViewModel>(
                     builder: (_, _viewModel, __) {
                   return MonthView(
@@ -48,22 +49,23 @@ class _HomeScreenState extends State<HomeScreen> {
                     cellBuilder: (date, events, isToday, isInMonth) {
                       // Return your widget to display as month cell.
                       return Container(
+                        padding: const EdgeInsets.all(3),
                         color: isInMonth
                             ? Color(_viewModel.getColorActivitiesOfTheDay(date))
                             : Colors.grey[200],
-                        child: Stack(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Positioned.fill(
-                              top: 5,
-                              left: 5,
-                              child: Text(
-                                '${date.day}',
-                                style: TextStyleUtils.thin(18).copyWith(
-                                    color: isInMonth
-                                        ? Colors.black
-                                        : Colors.grey[200]),
-                              ),
+                            Text(
+                              '${date.day}',
+                              style: TextStyleUtils.thin(18).copyWith(
+                                  color: isInMonth
+                                      ? Colors.black
+                                      : Colors.grey[200]),
                             ),
+                            isToday
+                                ? Dot(color: Colors.red)
+                                : const SizedBox.shrink(),
                           ],
                         ),
                       );
@@ -72,8 +74,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         print("$date, $pageIndex"),
                     onCellTap: (events, date) async {
                       // Implement callback when user taps on a cell.
-                      _viewModel.initTransactionsByDate(date);
-                      await DialogUtils.showActivityOfDateDialog(date);
+                      if (_viewModel.hasTransaction(date)) {
+                        _viewModel.initTransactionsByDate(date);
+                        await DialogUtils.showActivityOfDateDialog(date);
+                      }
                     },
                     startDay:
                         WeekDays.sunday, // To change the first day of the week.
@@ -97,6 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
+            const SizedBox(height: 10),
           ],
         ),
       ),
