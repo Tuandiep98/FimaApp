@@ -62,7 +62,7 @@ class _CategoriesTrackerWidgetState extends State<CategoriesTrackerWidget> {
                               ),
                             ),
                             child: Text(
-                              'Categories for month',
+                              'Month',
                               style: TextStyleUtils.bold(25)
                                   .copyWith(color: Colors.white),
                             ),

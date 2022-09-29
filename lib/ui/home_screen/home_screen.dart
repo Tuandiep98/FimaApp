@@ -17,13 +17,27 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   ITransactionViewModel _viewModel;
+  EventController _eventController;
   @override
   void initState() {
     _viewModel = context.read<ITransactionViewModel>();
+    _eventController = EventController();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _viewModel.initTransactions();
+      initData();
     });
     super.initState();
+  }
+
+  void initData() {
+    var event = CalendarEventData(
+      date: DateTime.now(),
+      event: "Event 1",
+      title: 'Title 1',
+    );
+
+    _eventController.add(event);
+    setState(() {});
   }
 
   @override
@@ -43,9 +57,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   return MonthView(
                     cellAspectRatio: 2,
                     showBorder: false,
-                    controller: EventController(),
+                    controller: _eventController,
                     // to provide custom UI for month cells.
                     cellBuilder: (date, events, isToday, isInMonth) {
+                      if (events.any((x) =>
+                          x.date.day == date.day &&
+                          x.date.month == date.month)) {
+                        print('has event: ' + date.toString());
+                      }
                       // Return your widget to display as month cell.
                       return Container(
                         padding: const EdgeInsets.all(3),
